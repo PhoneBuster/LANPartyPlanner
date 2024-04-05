@@ -15,6 +15,7 @@ export default defineEventHandler(async (event) => {
 
   if (!body.username || !body.password) {
     await sendRedirect(event, urlGenerator.noAccessUrl);
+    return;
   }
   console.log(body);
   const cryptedPassword = await cryptPw(body.password);

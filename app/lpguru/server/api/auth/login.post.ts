@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
 
   if (!body.username || !body.password) {
     await sendRedirect(event, urlGenerator.noAccessUrl);
+    return;
   }
 
   const userStorage = useStorage("user");
@@ -18,12 +19,14 @@ export default defineEventHandler(async (event) => {
 
   if (!user) {
     await sendRedirect(event, urlGenerator.noAccessUrl);
+    return;
   }
 
   const cryptedPw = await cryptPw(body.password);
 
   if (!(user?.password === cryptedPw)) {
     await sendRedirect(event, urlGenerator.noAccessUrl);
+    return;
   }
 
   const ticketStorage = useStorage("tickets");
