@@ -4,7 +4,8 @@ export const useUrlGenerator = () => {
   const getAllUrl: string = "/api/games/all";
   const getSessionUrl: string = "/api/auth/session";
   const apiLoginUrl: string = "/api/auth/login";
-  const apiSignUp: string = "/api/auth/signup";
+  const apiCreateUser: string = "/api/user/create";
+  const apiRemoveUser: string = "/api/user/remove";
 
   const getLoginUrl: string = "/login";
   const noAccessUrl: string = "/noaccess";
@@ -16,9 +17,10 @@ export const useUrlGenerator = () => {
     getAllUrl,
     getSessionUrl,
     apiLoginUrl,
+    apiCreateUser,
+    apiRemoveUser,
     getLoginUrl,
     noAccessUrl,
-    apiSignUp,
     gamePage,
   };
 };

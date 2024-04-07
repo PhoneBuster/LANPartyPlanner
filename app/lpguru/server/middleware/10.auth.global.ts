@@ -43,7 +43,8 @@ export default defineEventHandler(async (event) => {
       urlGenerator.getLoginUrl,
       urlGenerator.apiLoginUrl,
       urlGenerator.noAccessUrl,
-      urlGenerator.apiSignUp,
+      urlGenerator.apiCreateUser,
+      urlGenerator.apiRemoveUser,
     ])
   ) {
     return;
