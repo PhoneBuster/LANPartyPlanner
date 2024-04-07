@@ -4,6 +4,8 @@ import type { LanGame } from "~/types/games/gameTypes";
 const isNewGameFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>();
 const gameService = useGameService();
+const urlGenerater = useUrlGenerator();
+
 function openNewGameForm(): void {
   isNewGameFormOpen.value = true;
 }
@@ -33,6 +35,72 @@ function deleteLanGame(lanGameId: string) {
   });
 }
 
+function gameUpVote(lanGameId: string) {
+  $fetch(urlGenerater.apiGameUpVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+function gameDownVote(lanGameId: string) {
+  $fetch(urlGenerater.apiGameDownVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+function removeGameUpVote(lanGameId: string) {
+  $fetch(urlGenerater.apiGameUpVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "DELETE",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+function removeGameDownVote(lanGameId: string) {
+  $fetch(urlGenerater.apiGameDownVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "DELETE",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
 onMounted(() => {
   loadLanGames();
 });
@@ -80,6 +148,10 @@ onMounted(() => {
                   :price="lanGame.price"
                   :description="lanGame.description"
                   @delete:lan-game="deleteLanGame"
+                  @vote:upvote="gameUpVote"
+                  @vote:downvote="gameDownVote"
+                  @vote-remove:upvote="removeGameUpVote"
+                  @vote-remove:downvote="removeGameDownVote"
                 />
               </SplideSlide>
             </Splide>

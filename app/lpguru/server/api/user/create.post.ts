@@ -25,6 +25,8 @@ export default defineEventHandler(async (event) => {
   const data: UserStorage = {
     username: body.username,
     password: body.password,
+    currentVotes: 0,
+    gameVotes: [],
   };
 
   console.log(data);

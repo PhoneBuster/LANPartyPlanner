@@ -1,7 +1,7 @@
 import type { LanGame } from "~/types/games/gameTypes";
 import type { ResponseMessage } from "~/types/messages/responseMessages";
 
-export default defineEventHandler(async (event): Promise<ResponseMessage> => {
+export default defineEventHandler(async (): Promise<ResponseMessage> => {
   const gameStorage = useStorage("db");
   const itemKeys: string[] = await gameStorage.getKeys();
   const allItems: LanGame[] = [];

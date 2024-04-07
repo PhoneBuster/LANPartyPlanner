@@ -6,6 +6,9 @@ export const useUrlGenerator = () => {
   const apiLoginUrl: string = "/api/auth/login";
   const apiCreateUser: string = "/api/user/create";
   const apiRemoveUser: string = "/api/user/remove";
+  const apiGameUpVote: string = "/api/games/upvote";
+  const apiGameDownVote: string = "/api/games/downvote";
+  const apiMaxVotes: string = "/api/games/maxvotes";
 
   const getLoginUrl: string = "/login";
   const noAccessUrl: string = "/noaccess";
@@ -19,6 +22,9 @@ export const useUrlGenerator = () => {
     apiLoginUrl,
     apiCreateUser,
     apiRemoveUser,
+    apiGameUpVote,
+    apiGameDownVote,
+    apiMaxVotes,
     getLoginUrl,
     noAccessUrl,
     gamePage,
