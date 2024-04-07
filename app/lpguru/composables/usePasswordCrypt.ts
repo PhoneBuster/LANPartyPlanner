@@ -2,7 +2,7 @@ import crypto from "crypto";
 
 export const usePasswordCrypt = () => {
   async function cryptPw(plainTextPassword: any): Promise<string> {
-    return await new Promise((resolve, reject) => {
+    return await new Promise((resolve) => {
       const hashValue = crypto
         .createHmac("sha256", plainTextPassword)
         .update("You dont know what i want")

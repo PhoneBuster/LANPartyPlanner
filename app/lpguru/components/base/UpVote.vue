@@ -15,7 +15,7 @@ const props = defineProps({
       name="material-symbols:heart-plus"
       size="3rem"
     />
-    <span class="base-thumb-up-counter"> 10 </span>
+    <span class="base-thumb-up-counter"> {{ counter }} </span>
   </div>
 </template>
 

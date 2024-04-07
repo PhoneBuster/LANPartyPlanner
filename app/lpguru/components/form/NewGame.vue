@@ -11,14 +11,13 @@ import {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const $emit = defineEmits(["close:form", "saved:game"]);
 const gameName = ref("");
-const gameImage = ref("");
 const gamePrice = ref("0");
 const gameDescription = ref("");
 const gamePlatform = ref(GamingPlatform.Unknown);
 const gameGenre = ref(GamingGenre.Other);
 const gameService = useGameService();
 async function submitForm() {
-  if (gameName.value === "" || gameImage.value === "") {
+  if (gameName.value === "") {
     return;
   }
 
@@ -61,9 +60,6 @@ const genreOptions = computed<GenreOptions[]>(() => {
       </BaseLabel>
       <BaseLabel title-text="Ungefährer Preis">
         <BaseInput v-model="gamePrice" type="string" />
-      </BaseLabel>
-      <BaseLabel title-text="Bild">
-        <BaseInput v-model="gameImage" type="text" required />
       </BaseLabel>
       <BaseLabel title-text="Platform">
         <select v-model="gamePlatform" class="base-select">

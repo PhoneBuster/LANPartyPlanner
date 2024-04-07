@@ -1,5 +1,4 @@
-import type { ResponseAuthMessage } from "~/types/messages/responseMessages";
-import type { UserStorage } from "~/types/games/storageTypes";
+import type { Ticket, UserStorage } from "~/types/games/storageTypes";
 import { useUrlGenerator } from "~/composables/useUrlGenerator";
 import { usePasswordCrypt } from "~/composables/usePasswordCrypt";
 import { nanoid } from "nanoid";
@@ -36,9 +35,10 @@ export default defineEventHandler(async (event) => {
 
   const ticket = nanoid(32);
   const created = Date.now();
-  const ticketData = {
+  const ticketData: Ticket = {
     ticket,
     created,
+    username: body.username,
   };
   currentTickets.tickets.push(ticketData);
   await ticketStorage.setItem("tickets", currentTickets);

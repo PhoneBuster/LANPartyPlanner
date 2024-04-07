@@ -6,7 +6,13 @@ import {
 } from "@/types/games/gameTypes";
 
 const props = defineProps<LanGame>();
-const emit = defineEmits(["delete:lan-game"]);
+const emit = defineEmits([
+  "delete:lan-game",
+  "vote:upvote",
+  "vote:downvote",
+  "vote-remove:upvote",
+  "vote-remove:downvote",
+]);
 const gameService = useGameService();
 const genreImageClass = computed(() => {
   let bgClass = "";
@@ -49,8 +55,30 @@ const gameGenre = computed<GenreOptions>(() => {
   return option;
 });
 
+const isDeleteButtonDisabled = computed(() => {
+  return props.upVotes > 0 || props.downVotes > 0;
+});
+
+function onUpVote() {
+  emit("vote:upvote", props.id);
+}
+
+function onUpVoteRemove() {
+  emit("vote-remove:upvote", props.id);
+}
+
+function onDownVoteRemove() {
+  emit("vote-remove:downvote", props.id);
+}
+
+function onDownVote() {
+  emit("vote:downvote", props.id);
+}
+
 function deleteGame() {
-  emit("delete:lan-game", props.id);
+  if (!isDeleteButtonDisabled.value) {
+    emit("delete:lan-game", props.id);
+  }
 }
 </script>
 
@@ -79,10 +107,20 @@ function deleteGame() {
           <GameDescription :description="description" />
         </div>
         <div class="game-card-infos">
-          <BaseUpVote :counter="upVotes" class="mr-2" />
-          <BaseDownVote :counter="downVotes" />
+          <BaseUpVote
+            :counter="upVotes"
+            class="mr-2"
+            @click.exact="onUpVote"
+            @click.ctrl.exact="onUpVoteRemove"
+          />
+          <BaseDownVote
+            :counter="downVotes"
+            @click.exact="onDownVote"
+            @click.ctrl.exact="onDownVoteRemove"
+          />
           <GameDelete
-            class="flex-grow flex justify-end cursor-pointer"
+            :disabled="isDeleteButtonDisabled"
+            class="flex-grow flex justify-end"
             @click="deleteGame"
           />
         </div>
