@@ -7,7 +7,14 @@ services:
     command: bash
     tty: true
     user: node
+    environment:
+      - WEB_API_KEY_FILE=/run/secrets/web_api_key
+    secrets:
+      - web_api_key
     working_dir: /home/node/lpguru
     ports:
       - "3000:3000"
 
+secrets:
+  web_api_key:
+    file: api_key.txt
