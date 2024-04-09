@@ -78,6 +78,7 @@ export const useGameService = () => {
     saveNewGame,
     deleteGame,
     getAll,
+    getGameById,
     getPlatformOptions,
     getGenreOptions,
   };

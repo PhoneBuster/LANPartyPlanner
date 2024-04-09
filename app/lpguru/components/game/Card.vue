@@ -149,7 +149,7 @@ function editGame() {
 }
 
 .game-base-card {
-  @apply flex flex-col h-[96%] w-[350px];
+  @apply bg-white border border-solid border-slate-600 flex flex-col h-[96%] w-[350px];
 }
 
 .game-card-heading {
@@ -192,10 +192,10 @@ function editGame() {
 }
 
 .bg-cover-image {
-  @apply bg-cover bg-no-repeat transition-all duration-300;
+  @apply bg-cover bg-no-repeat transition-all duration-300 rounded-t-lg;
 
   &:hover {
-    @apply scale-105;
+    @apply scale-105 rounded-lg;
   }
 }
 

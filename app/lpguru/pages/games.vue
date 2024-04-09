@@ -2,7 +2,9 @@
 import type { LanGame } from "~/types/games/gameTypes";
 
 const isNewGameFormOpen = ref(false);
+const isEditFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>();
+const currentLanGameId = ref("");
 const gameService = useGameService();
 const urlGenerater = useUrlGenerator();
 
@@ -12,6 +14,14 @@ function openNewGameForm(): void {
 
 function closeNewGameForm() {
   isNewGameFormOpen.value = false;
+}
+
+function openEditGameForm() {
+  isEditFormOpen.value = true;
+}
+
+function closeEditGameForm() {
+  isEditFormOpen.value = false;
 }
 
 async function loadLanGames() {
@@ -33,6 +43,11 @@ function deleteLanGame(lanGameId: string) {
   gameService.deleteGame(lanGameId).then(() => {
     loadLanGames();
   });
+}
+
+function editLanGame(lanGameId: string) {
+  currentLanGameId.value = lanGameId;
+  openEditGameForm();
 }
 
 function gameUpVote(lanGameId: string) {
@@ -109,12 +124,18 @@ onMounted(() => {
 <template>
   <div>
     <NuxtLayout>
-      <template #header>Header</template>
+      <template #header></template>
       <template #content>
         <FormNewGame
           v-show="isNewGameFormOpen"
           @close:form="closeNewGameForm"
           @saved:game="loadLanGames"
+        />
+        <FormModifyGame
+          v-show="isEditFormOpen"
+          :lan-game-id="currentLanGameId"
+          @close:edit-form="closeEditGameForm"
+          @saved:edit-game="loadLanGames"
         />
         <div class="game-content">
           <div class="game-content-slider">
@@ -135,7 +156,7 @@ onMounted(() => {
                     width: '70vw',
                   },
                   1400: {
-                    perPage: 2,
+                    perPage: 3,
                     width: '1300px',
                   },
                 },
@@ -154,6 +175,7 @@ onMounted(() => {
                   :price="lanGame.price"
                   :description="lanGame.description"
                   @delete:lan-game="deleteLanGame"
+                  @edit:lan-game="editLanGame"
                   @vote:upvote="gameUpVote"
                   @vote:downvote="gameDownVote"
                   @vote-remove:upvote="removeGameUpVote"
@@ -166,11 +188,14 @@ onMounted(() => {
         <div class="flex justify-center mt-10">
           <AlignVerticalLine>
             <BaseButton button-type="x" @click="openNewGameForm" />
-            <BaseDescription class="ml-2" description="Neuer Eintrag" />
+            <BaseDescription
+              class="ml-2 bg-white rounded-lg px-4 py-1 border border-slate-600"
+              description="Neuer Eintrag"
+            />
           </AlignVerticalLine>
         </div>
       </template>
-      <template #footer>test</template>
+      <template #footer></template>
     </NuxtLayout>
   </div>
 </template>

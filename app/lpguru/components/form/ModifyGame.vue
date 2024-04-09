@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGameService } from "~/composables/useGameService";
-import { nanoid } from "nanoid";
+
 import {
   GamingGenre,
   GamingPlatform,
@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const $emit = defineEmits(["close:form", "saved:game"]);
+const $emit = defineEmits(["close:edit-form", "saved:edit-game"]);
 const gameName = ref("");
 const gamePrice = ref("0");
 const gameDescription = ref("");
@@ -40,7 +40,8 @@ async function submitForm() {
     description: gameDescription.value,
   });
 
-  $emit("saved:game", true);
+  $emit("saved:edit-game", true);
+  $emit("close:edit-form");
 }
 
 const platformOptions = computed<PlatformOptions[]>(() => {
@@ -51,84 +52,91 @@ const genreOptions = computed<GenreOptions[]>(() => {
   return gameService.getGenreOptions();
 });
 
-onMounted(() => {
-  gameService.getGameById(props.lanGameId).then((game) => {
-    gameName.value = game.name;
-    gamePrice.value = game.price;
-    gameDescription.value = game.description;
-    gamePlatform.value = game.platform;
-    gameGenre.value = game.genre;
-  });
-});
+function loadLanGame() {
+  if (props.lanGameId === "") {
+    return;
+  }
+
+  gameService
+    .getGameById(props.lanGameId)
+    .then((game) => {
+      gameName.value = game.name;
+      gamePrice.value = game.price;
+      gameDescription.value = game.description || "";
+      gamePlatform.value = game.platform;
+      gameGenre.value = game.genre;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+watch(
+  () => props.lanGameId,
+  () => {
+    loadLanGame();
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
-  <div class="new-game-form">
-    <div class="new-game-form--container">
-      <h1>Neuer Eintrag</h1>
-      <BaseLabel title-text="Name">
-        <BaseInput
-          v-model="gameName"
-          v-focus
-          type="text"
-          maxlength="128"
-          required
+  <FormContainer>
+    <h1>Game bearbeiten</h1>
+    <BaseLabel title-text="Name">
+      <BaseInput
+        v-model="gameName"
+        v-focus
+        type="text"
+        maxlength="128"
+        required
+      />
+    </BaseLabel>
+    <BaseLabel title-text="Ungefährer Preis">
+      <BaseInput v-model="gamePrice" type="string" />
+    </BaseLabel>
+    <BaseLabel title-text="Platform">
+      <select v-model="gamePlatform" class="base-select">
+        <option
+          v-for="platformOption in platformOptions"
+          :key="platformOption.value"
+          :value="platformOption.value"
+        >
+          {{ platformOption.label }}
+        </option>
+      </select>
+    </BaseLabel>
+    <BaseLabel title-text="Genre">
+      <select v-model="gameGenre" class="base-select">
+        <option
+          v-for="genreOption in genreOptions"
+          :key="genreOption.value"
+          :value="genreOption.value"
+        >
+          {{ genreOption.label }}
+        </option>
+      </select>
+    </BaseLabel>
+    <BaseLabel title-text="kurze Beschreibung">
+      <BaseTextArea v-model="gameDescription" rows="4" />
+    </BaseLabel>
+    <div class="mt-4">
+      <AlignVerticalLine class="justify-end">
+        <BaseButton button-type="A" @click="submitForm" />
+        <BaseDescription class="ml-1" description="Speichern" />
+        <BaseButton
+          class="ml-2"
+          button-type="B"
+          @click="$emit('close:edit-form')"
         />
-      </BaseLabel>
-      <BaseLabel title-text="Ungefährer Preis">
-        <BaseInput v-model="gamePrice" type="string" />
-      </BaseLabel>
-      <BaseLabel title-text="Platform">
-        <select v-model="gamePlatform" class="base-select">
-          <option
-            v-for="platformOption in platformOptions"
-            :key="platformOption.value"
-            :value="platformOption.value"
-          >
-            {{ platformOption.label }}
-          </option>
-        </select>
-      </BaseLabel>
-      <BaseLabel title-text="Genre">
-        <select v-model="gameGenre" class="base-select">
-          <option
-            v-for="genreOption in genreOptions"
-            :key="genreOption.value"
-            :value="genreOption.value"
-          >
-            {{ genreOption.label }}
-          </option>
-        </select>
-      </BaseLabel>
-      <BaseLabel title-text="kurze Beschreibung">
-        <BaseTextArea v-model="gameDescription" rows="4" />
-      </BaseLabel>
-      <div class="mt-4">
-        <AlignVerticalLine class="justify-end">
-          <BaseButton button-type="A" @click="submitForm" />
-          <BaseDescription class="ml-1" description="Speichern" />
-          <BaseButton
-            class="ml-2"
-            button-type="B"
-            @click="$emit('close:form')"
-          />
-          <BaseDescription class="ml-1" description="Zurück" />
-        </AlignVerticalLine>
-      </div>
+        <BaseDescription class="ml-1" description="Zurück" />
+      </AlignVerticalLine>
     </div>
-  </div>
+  </FormContainer>
 </template>
 
 <style scoped lang="scss">
 .base-select {
   @apply px-2 py-1 rounded-lg border border-slate-600;
-}
-
-.new-game-form {
-  @apply absolute top-0 left-0 w-full h-full flex items-center justify-center bg-slate-500/75 z-10;
-
-  &--container {
-    @apply grid grid-cols-1 gap-3 bg-blue-100 px-4 py-6 w-3/4 border border-solid border-slate-500 rounded-lg max-w-[700px];
-  }
 }
 </style>

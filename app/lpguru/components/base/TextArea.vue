@@ -8,5 +8,6 @@ const model = defineModel({ type: String, default: "", required: false });
 
 <style scoped lang="scss">
 .base-text-area {
+  @apply p-2;
 }
 </style>

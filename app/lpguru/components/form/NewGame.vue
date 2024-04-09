@@ -15,6 +15,7 @@ const gamePrice = ref("0");
 const gameDescription = ref("");
 const gamePlatform = ref(GamingPlatform.Unknown);
 const gameGenre = ref(GamingGenre.Other);
+const isMultiEntryActive = ref(false);
 const gameService = useGameService();
 async function submitForm() {
   if (gameName.value === "") {
@@ -34,6 +35,9 @@ async function submitForm() {
   });
 
   $emit("saved:game", true);
+  if (!isMultiEntryActive.value) {
+    $emit("close:form");
+  }
 }
 
 const platformOptions = computed<PlatformOptions[]>(() => {
@@ -46,72 +50,66 @@ const genreOptions = computed<GenreOptions[]>(() => {
 </script>
 
 <template>
-  <div class="new-game-form">
-    <div class="new-game-form--container">
-      <h1>Neuer Eintrag</h1>
-      <BaseLabel title-text="Name">
-        <BaseInput
-          v-model="gameName"
-          v-focus
-          type="text"
-          maxlength="128"
-          required
-        />
-      </BaseLabel>
-      <BaseLabel title-text="Ungefährer Preis">
-        <BaseInput v-model="gamePrice" type="string" />
-      </BaseLabel>
-      <BaseLabel title-text="Platform">
-        <select v-model="gamePlatform" class="base-select">
-          <option
-            v-for="platformOption in platformOptions"
-            :key="platformOption.value"
-            :value="platformOption.value"
-          >
-            {{ platformOption.label }}
-          </option>
-        </select>
-      </BaseLabel>
-      <BaseLabel title-text="Genre">
-        <select v-model="gameGenre" class="base-select">
-          <option
-            v-for="genreOption in genreOptions"
-            :key="genreOption.value"
-            :value="genreOption.value"
-          >
-            {{ genreOption.label }}
-          </option>
-        </select>
-      </BaseLabel>
-      <BaseLabel title-text="kurze Beschreibung">
-        <BaseTextArea v-model="gameDescription" rows="4" />
-      </BaseLabel>
-      <div class="mt-4">
-        <AlignVerticalLine class="justify-end">
-          <BaseButton button-type="A" @click="submitForm" />
-          <BaseDescription class="ml-1" description="Speichern" />
-          <BaseButton
-            class="ml-2"
-            button-type="B"
-            @click="$emit('close:form')"
+  <FormContainer>
+    <h1>Neuer Eintrag</h1>
+    <BaseLabel title-text="Name">
+      <BaseInput
+        v-model="gameName"
+        v-focus
+        type="text"
+        maxlength="128"
+        required
+      />
+    </BaseLabel>
+    <BaseLabel title-text="Ungefährer Preis">
+      <BaseInput v-model="gamePrice" type="string" />
+    </BaseLabel>
+    <BaseLabel title-text="Platform">
+      <select v-model="gamePlatform" class="base-select">
+        <option
+          v-for="platformOption in platformOptions"
+          :key="platformOption.value"
+          :value="platformOption.value"
+        >
+          {{ platformOption.label }}
+        </option>
+      </select>
+    </BaseLabel>
+    <BaseLabel title-text="Genre">
+      <select v-model="gameGenre" class="base-select">
+        <option
+          v-for="genreOption in genreOptions"
+          :key="genreOption.value"
+          :value="genreOption.value"
+        >
+          {{ genreOption.label }}
+        </option>
+      </select>
+    </BaseLabel>
+    <BaseLabel title-text="kurze Beschreibung">
+      <BaseTextArea v-model="gameDescription" rows="4" />
+    </BaseLabel>
+    <div class="mt-4">
+      <AlignVerticalLine class="justify-end">
+        <div class="flex items-center justify-center mr-4">
+          <BaseInput
+            v-model="isMultiEntryActive"
+            type="checkbox"
+            class="cursor-pointer mr-2 w-6 h-6"
           />
-          <BaseDescription class="ml-1" description="Zurück" />
-        </AlignVerticalLine>
-      </div>
+          <div class="flex items-center justify-center">Mehrfache Einträge</div>
+        </div>
+        <BaseButton button-type="A" @click="submitForm" />
+        <BaseDescription class="ml-1" description="Speichern" />
+        <BaseButton class="ml-2" button-type="B" @click="$emit('close:form')" />
+        <BaseDescription class="ml-1" description="Zurück" />
+      </AlignVerticalLine>
     </div>
-  </div>
+  </FormContainer>
 </template>
 
 <style scoped lang="scss">
 .base-select {
   @apply px-2 py-1 rounded-lg border border-slate-600;
-}
-
-.new-game-form {
-  @apply absolute top-0 left-0 w-full h-full flex items-center justify-center bg-slate-500/75 z-10;
-
-  &--container {
-    @apply grid grid-cols-1 gap-3 bg-blue-100 px-4 py-6 w-3/4 border border-solid border-slate-500 rounded-lg max-w-[700px];
-  }
 }
 </style>
