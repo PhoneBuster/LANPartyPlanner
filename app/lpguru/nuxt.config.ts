@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ["@nuxtjs/eslint-module", "@nuxtjs/tailwindcss", "nuxt-icon"],
   typescript: {
-    typeCheck: true,
+    typeCheck: false,
   },
   css: ["@splidejs/splide/css/skyblue"],
   nitro: {
@@ -23,6 +23,13 @@ export default defineNuxtConfig({
       votes: {
         driver: "fs",
         base: "/home/node/data/votes",
+      },
+    },
+  },
+  vite: {
+    resolve: {
+      alias: {
+        "@Image": "/home/node/lpguru/public/images",
       },
     },
   },

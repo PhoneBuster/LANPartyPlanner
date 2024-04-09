@@ -30,6 +30,17 @@ export const useGameService = () => {
     return $fetch(urlGenerator.getAllUrl, {
       headers: {
         accept: "application/json",
+        "content-type": "application/json",
+      },
+    });
+  }
+
+  function getGameById(gameId: string): Promise<LanGame> {
+    return $fetch(`${urlGenerator.getGameByIdUrl}?gameId=${gameId}`, {
+      method: "GET",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
       },
     });
   }

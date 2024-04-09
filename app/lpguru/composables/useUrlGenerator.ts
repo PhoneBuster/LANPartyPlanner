@@ -2,6 +2,7 @@ export const useUrlGenerator = () => {
   const saveGameUrl: string = "/api/games/save";
   const deleteGameUrl: string = "/api/games/delete";
   const getAllUrl: string = "/api/games/all";
+  const getGameByIdUrl: string = "/api/games/one";
   const getSessionUrl: string = "/api/auth/session";
   const apiLoginUrl: string = "/api/auth/login";
   const apiCreateUser: string = "/api/user/create";
@@ -18,6 +19,7 @@ export const useUrlGenerator = () => {
     saveGameUrl,
     deleteGameUrl,
     getAllUrl,
+    getGameByIdUrl,
     getSessionUrl,
     apiLoginUrl,
     apiCreateUser,

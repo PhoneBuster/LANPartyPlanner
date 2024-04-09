@@ -8,6 +8,7 @@ import {
 const props = defineProps<LanGame>();
 const emit = defineEmits([
   "delete:lan-game",
+  "edit:lan-game",
   "vote:upvote",
   "vote:downvote",
   "vote-remove:upvote",
@@ -80,6 +81,10 @@ function deleteGame() {
     emit("delete:lan-game", props.id);
   }
 }
+
+function editGame() {
+  emit("edit:lan-game", props.id);
+}
 </script>
 
 <template>
@@ -118,9 +123,14 @@ function deleteGame() {
             @click.exact="onDownVote"
             @click.ctrl.exact="onDownVoteRemove"
           />
+          <GameEdit
+            :disabled="isDeleteButtonDisabled"
+            class="flex flex-grow justify-end"
+            @click="editGame"
+          />
           <GameDelete
             :disabled="isDeleteButtonDisabled"
-            class="flex-grow flex justify-end"
+            class="flex justify-end"
             @click="deleteGame"
           />
         </div>
@@ -134,7 +144,7 @@ function deleteGame() {
   @apply flex justify-center w-full h-[550px];
 
   @screen md {
-    @apply px-2;
+    @apply px-8 py-2;
   }
 }
 
@@ -190,26 +200,26 @@ function deleteGame() {
 }
 
 .bg-genre-other {
-  @apply bg-[url('/images/genres/genre-other.webp')];
+  @apply bg-[url('@Image/genres/genre-other.webp')];
 }
 
 .bg-genre-racing {
-  @apply bg-[url('/images/genres/genre-racing.jpg')];
+  @apply bg-[url('@Image/genres/genre-racing.jpg')];
 }
 
 .bg-genre-action {
-  @apply bg-[url('/images/genres/genre-action.jpg')];
+  @apply bg-[url('@Image/genres/genre-action.jpg')];
 }
 
 .bg-genre-strategy {
-  @apply bg-[url('/images/genres/genre-strategy.jpg')];
+  @apply bg-[url('@Image/genres/genre-strategy.jpg')];
 }
 
 .bg-genre-shooter {
-  @apply bg-[url('/images/genres/genre-shooter.jpg')];
+  @apply bg-[url('@Image/genres/genre-shooter.jpg')];
 }
 
 .bg-genre-jumpandrun {
-  @apply bg-[url('/images/genres/genre-jumpandrun.webp')];
+  @apply bg-[url('@Image/genres/genre-jumpandrun.webp')];
 }
 </style>

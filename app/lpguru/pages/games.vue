@@ -121,6 +121,12 @@ onMounted(() => {
             <Splide
               :options="{
                 rewind: true,
+                padding: '1rem 2rem',
+                classes: {
+                  prev: 'splide__arrow--prev custom-arrow-prev',
+                  next: 'splide__arrow--next custom-arrow-next',
+                },
+
                 width: '100vw',
                 perPage: 1,
                 mediaQuery: 'min',
@@ -173,6 +179,22 @@ onMounted(() => {
 @import "@splidejs/splide/css/skyblue";
 .game-content {
   @apply w-full flex flex-col items-center;
+
+  &::v-deep(.splide__arrow--prev.custom-arrow-prev) {
+    @apply left-4;
+
+    @screen xl {
+      @apply left-[-1rem];
+    }
+  }
+
+  &::v-deep(.splide__arrow--next.custom-arrow-next) {
+    @apply right-4;
+
+    @screen xl {
+      @apply right-[-1rem];
+    }
+  }
 }
 
 .game-content-slider {
