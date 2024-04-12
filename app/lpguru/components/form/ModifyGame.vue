@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useGameService } from "~/composables/useGameService";
-import { nanoid } from "nanoid";
+
 import {
   GamingGenre,
   GamingPlatform,
@@ -8,14 +8,20 @@ import {
   type GenreOptions,
 } from "~/types/games/gameTypes";
 
+const props = defineProps({
+  lanGameId: {
+    type: String,
+    required: true,
+  },
+});
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const $emit = defineEmits(["close:form", "saved:game"]);
+const $emit = defineEmits(["close:edit-form", "saved:edit-game"]);
 const gameName = ref("");
 const gamePrice = ref("0");
 const gameDescription = ref("");
 const gamePlatform = ref(GamingPlatform.Unknown);
 const gameGenre = ref(GamingGenre.Other);
-const isMultiEntryActive = ref(false);
 const gameService = useGameService();
 async function submitForm() {
   if (gameName.value === "") {
@@ -23,7 +29,7 @@ async function submitForm() {
   }
 
   await gameService.saveNewGame({
-    id: nanoid(16),
+    id: props.lanGameId,
     name: gameName.value,
     upVotes: 0,
     downVotes: 0,
@@ -34,10 +40,8 @@ async function submitForm() {
     description: gameDescription.value,
   });
 
-  $emit("saved:game", true);
-  if (!isMultiEntryActive.value) {
-    $emit("close:form");
-  }
+  $emit("saved:edit-game", true);
+  $emit("close:edit-form");
 }
 
 const platformOptions = computed<PlatformOptions[]>(() => {
@@ -47,11 +51,38 @@ const platformOptions = computed<PlatformOptions[]>(() => {
 const genreOptions = computed<GenreOptions[]>(() => {
   return gameService.getGenreOptions();
 });
+
+function loadLanGame() {
+  if (props.lanGameId === "") {
+    return;
+  }
+
+  gameService
+    .getGameById(props.lanGameId)
+    .then((game) => {
+      gameName.value = game.name;
+      gamePrice.value = game.price;
+      gameDescription.value = game.description || "";
+      gamePlatform.value = game.platform;
+      gameGenre.value = game.genre;
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+}
+
+watch(
+  () => props.lanGameId,
+  () => {
+    loadLanGame();
+  },
+  { immediate: true },
+);
 </script>
 
 <template>
   <FormContainer>
-    <h1>Neuer Eintrag</h1>
+    <h1>Game bearbeiten</h1>
     <BaseLabel title-text="Name">
       <BaseInput
         v-model="gameName"
@@ -91,17 +122,13 @@ const genreOptions = computed<GenreOptions[]>(() => {
     </BaseLabel>
     <div class="mt-4">
       <AlignVerticalLine class="justify-end">
-        <div class="flex items-center justify-center mr-4">
-          <BaseInput
-            v-model="isMultiEntryActive"
-            type="checkbox"
-            class="cursor-pointer mr-2 w-6 h-6"
-          />
-          <div class="flex items-center justify-center">Mehrfache Einträge</div>
-        </div>
         <BaseButton button-type="A" @click="submitForm" />
         <BaseDescription class="ml-1" description="Speichern" />
-        <BaseButton class="ml-2" button-type="B" @click="$emit('close:form')" />
+        <BaseButton
+          class="ml-2"
+          button-type="B"
+          @click="$emit('close:edit-form')"
+        />
         <BaseDescription class="ml-1" description="Zurück" />
       </AlignVerticalLine>
     </div>

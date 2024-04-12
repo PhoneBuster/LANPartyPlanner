@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { PropType } from "vue";
+
 const model = defineModel({
-  type: String,
+  type: [String, Boolean] as PropType<string | boolean>,
   default: "",
   required: false,
 });
