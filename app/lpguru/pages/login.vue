@@ -9,7 +9,7 @@ const apiLoginUrl = computed(() => {
 <template>
   <div>
     <NuxtLayout name="simple-center">
-      <form :action="apiLoginUrl" method="post">
+      <form class="login-form" :action="apiLoginUrl" method="post">
         <BaseLabel title-text="Benutzername">
           <BaseInput name="username" type="text" />
         </BaseLabel>
@@ -25,4 +25,8 @@ const apiLoginUrl = computed(() => {
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.login-form {
+  @apply bg-blue-100/75 px-24 py-8 border rounded-lg border-solid border-slate-500;
+}
+</style>

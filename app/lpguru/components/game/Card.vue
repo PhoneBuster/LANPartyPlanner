@@ -149,7 +149,7 @@ function editGame() {
 }
 
 .game-base-card {
-  @apply bg-white border border-solid border-slate-600 flex flex-col h-[96%] w-[350px];
+  @apply bg-white/75 border border-solid border-slate-600 flex flex-col h-[96%] w-[350px];
 }
 
 .game-card-heading {
