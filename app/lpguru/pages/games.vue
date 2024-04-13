@@ -3,7 +3,7 @@ import type { LanGame } from "~/types/games/gameTypes";
 
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
-const lanGameItems = ref<LanGame[]>();
+const lanGameItems = ref<LanGame[]>([]);
 const currentLanGameId = ref("");
 const gameService = useGameService();
 const urlGenerater = useUrlGenerator();
@@ -116,6 +116,7 @@ function removeGameDownVote(lanGameId: string) {
       console.error(error);
     });
 }
+
 onMounted(() => {
   loadLanGames();
 });
@@ -140,6 +141,7 @@ onMounted(() => {
         <div class="game-content">
           <div class="game-content-slider">
             <Splide
+              class="bg-slate-100/75 px-24 py-8 rounded-lg border border-slate-500"
               :options="{
                 rewind: true,
                 padding: '1rem 2rem',
@@ -193,6 +195,9 @@ onMounted(() => {
               description="Neuer Eintrag"
             />
           </AlignVerticalLine>
+        </div>
+        <div class="flex flex-col justify-center items-center mt-24">
+          <RankingGames :lan-games="lanGameItems" />
         </div>
       </template>
       <template #footer></template>

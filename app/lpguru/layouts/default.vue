@@ -23,7 +23,7 @@
 <style lang="scss">
 body,
 html {
-  @apply h-full m-0;
+  @apply h-full m-0 p-0;
 }
 
 body {
