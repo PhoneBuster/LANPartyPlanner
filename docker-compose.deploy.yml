@@ -1,0 +1,11 @@
+services:
+  deploy:
+    image: node:20
+    volumes:
+      - ./app:/home/node
+    command: ./scripts/deploy.sh
+    tty: true
+    user: node
+    working_dir: /home/node/deployment
+    ports:
+      - "3000:3000"
