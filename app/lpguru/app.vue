@@ -5,8 +5,8 @@
 </template>
 
 <style lang="scss" scoped>
-.apps-page {
-  @apply bg-cover bg-right-top bg-no-repeat h-full w-full bg-[url('@Image/general/avatar2_free.png')];
+.app-page {
+  @apply h-full w-full;
 }
 </style>
 
