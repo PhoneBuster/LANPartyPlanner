@@ -16,6 +16,6 @@ const props = defineProps({
 
 <style scoped lang="scss">
 .base-description {
-  @apply text-lg text-slate-800;
+  @apply text-lg text-slate-100;
 }
 </style>

@@ -33,4 +33,15 @@ export default defineNuxtConfig({
       },
     },
   },
+  tailwindcss: {
+    config: {
+      theme: {
+        extend: {
+          boxShadow: {
+            cm: "12px 12px 24px -6px rgb(0,0,0)",
+          },
+        },
+      },
+    },
+  },
 });

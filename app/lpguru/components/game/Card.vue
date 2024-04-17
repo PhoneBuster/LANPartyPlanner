@@ -144,12 +144,16 @@ function editGame() {
   @apply flex justify-center w-full h-[550px];
 
   @screen md {
-    @apply px-8 py-2;
+    @apply px-8 py-2 shadow-none;
   }
 }
 
 .game-base-card {
-  @apply bg-white/75 border border-solid border-slate-600 flex flex-col h-[96%] w-[350px];
+  @apply bg-white border-2 border-solid border-slate-200 flex flex-col h-[96%] w-[350px];
+
+  @screen md {
+    @apply shadow-cm;
+  }
 }
 
 .game-card-heading {

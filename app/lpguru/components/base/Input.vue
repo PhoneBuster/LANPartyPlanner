@@ -14,6 +14,6 @@ const model = defineModel({
 
 <style scoped lang="scss">
 .base-input {
-  @apply px-2 py-1 border border-solid border-slate-600 rounded-lg;
+  @apply text-slate-700 px-2 py-1 border border-solid border-slate-600 rounded-lg;
 }
 </style>

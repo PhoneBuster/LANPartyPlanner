@@ -137,6 +137,6 @@ watch(
 
 <style scoped lang="scss">
 .base-select {
-  @apply px-2 py-1 rounded-lg border border-slate-600;
+  @apply px-2 py-1 rounded-lg border border-slate-600 text-slate-700;
 }
 </style>
