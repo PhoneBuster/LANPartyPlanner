@@ -27,6 +27,6 @@ const apiLoginUrl = computed(() => {
 
 <style scoped lang="scss">
 .login-form {
-  @apply bg-blue-100/75 px-24 py-8 border rounded-lg border-solid border-slate-500;
+  @apply absolute top-[30%] bg-blue-100/75 px-24 py-8 border rounded-lg border-solid border-slate-500;
 }
 </style>

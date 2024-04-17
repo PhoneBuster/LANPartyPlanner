@@ -141,7 +141,7 @@ onMounted(() => {
         <div class="game-content">
           <div class="game-content-slider">
             <Splide
-              class="bg-slate-100/75 px-24 py-8 rounded-lg border border-slate-500"
+              class="px-24 py-8"
               :options="{
                 rewind: true,
                 padding: '1rem 2rem',
@@ -191,7 +191,7 @@ onMounted(() => {
           <AlignVerticalLine>
             <BaseButton button-type="x" @click="openNewGameForm" />
             <BaseDescription
-              class="ml-2 bg-white rounded-lg px-4 py-1 border border-slate-600"
+              class="ml-2 rounded-lg px-4 py-1"
               description="Neuer Eintrag"
             />
           </AlignVerticalLine>

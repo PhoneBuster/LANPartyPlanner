@@ -22,7 +22,7 @@ definePageMeta({ layout: false, });
           @click="startApp"
           >A</base-button
         >
-        <span class="pl-2">click to start</span>
+        <span class="pl-2 text-slate-200">click to start</span>
       </div>
     </div>
   </NuxtLayout>
