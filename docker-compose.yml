@@ -12,9 +12,13 @@ services:
     secrets:
       - web_api_key
     working_dir: /home/node/lpguru
-    ports:
-      - "3000:3000"
+    networks:
+      - frontend
 
 secrets:
   web_api_key:
     file: api_key.txt
+
+networks:
+  frontend:
+    name: lpp_frontend

@@ -79,3 +79,4 @@ fabric.properties
 
 /.idea/hybrisProjectSettings.xml
 /.idea/material_theme_project_new.xml
+/docker-compose.override.yml
