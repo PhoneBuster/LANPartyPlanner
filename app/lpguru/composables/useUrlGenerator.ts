@@ -14,6 +14,7 @@ export const useUrlGenerator = () => {
   const getLoginUrl: string = "/login";
   const noAccessUrl: string = "/noaccess";
   const gamePage: string = "/games";
+  const homePage: string = "/";
 
   return {
     saveGameUrl,
@@ -30,5 +31,6 @@ export const useUrlGenerator = () => {
     getLoginUrl,
     noAccessUrl,
     gamePage,
+    homePage,
   };
 };

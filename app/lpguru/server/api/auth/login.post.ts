@@ -45,5 +45,5 @@ export default defineEventHandler(async (event) => {
 
   setCookie(event, "langame", ticket);
 
-  sendRedirect(event, urlGenerator.gamePage);
+  sendRedirect(event, urlGenerator.homePage);
 });
