@@ -141,7 +141,7 @@ onMounted(() => {
         <div class="game-content">
           <div class="game-content-slider">
             <Splide
-              class="px-24 py-8"
+              class="px-12 py-8"
               :options="{
                 rewind: true,
                 padding: '1rem 2rem',
