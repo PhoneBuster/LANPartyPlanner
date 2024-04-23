@@ -24,6 +24,13 @@ const rankedLanGames = computed(() => {
       <h1>Spiele-Ranking</h1>
     </div>
     <div class="ranking-games-list">
+      <RankingHeadline
+        class="m-1"
+        position-text="#"
+        price-text="&euro;"
+        up-votes-text="+"
+        down-votes-text="-"
+      />
       <RankingItem
         v-for="(game, index) in rankedLanGames"
         :key="game.id"
