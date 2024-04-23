@@ -125,7 +125,9 @@ onMounted(() => {
 <template>
   <div>
     <NuxtLayout>
-      <template #header></template>
+      <template #header>
+        <HudContainer />
+      </template>
       <template #content>
         <FormNewGame
           v-show="isNewGameFormOpen"
