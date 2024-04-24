@@ -9,6 +9,7 @@ const lppArgs = [
   "user create <name> <password>",
   "user remove <name>",
   "votes max <number>",
+  "landate <datestring>",
 ];
 
 const args = process.argv;
@@ -16,6 +17,27 @@ if (args.length === 2 || args.length === 3) {
   console.info("Please use one of the arguments : \n  ");
   console.info(lppArgs.join("\n"));
   process.exit(127);
+}
+
+if (args[2].toLowerCase() === "landate") {
+  if (args.length < 4) {
+    console.info("You must provide a date string!!!");
+    process.exit(128);
+  }
+
+  const dateStr = args[3];
+  console.log("Date string : ", dateStr);
+  const response = await fetch("http://localhost:3000/api/config/landate", {
+    method: "POST",
+    headers: {
+      "x-api-key": webApiKey,
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({ lanDate: dateStr }),
+  });
+
+  console.log(response.status, response.statusText);
 }
 
 if (args[2].toLowerCase() === "user" && args[3].toLowerCase() === "create") {

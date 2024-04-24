@@ -10,6 +10,7 @@ export const useUrlGenerator = () => {
   const apiGameUpVote: string = "/api/games/upvote";
   const apiGameDownVote: string = "/api/games/downvote";
   const apiMaxVotes: string = "/api/games/maxvotes";
+  const apiConfigLanDate: string = "/api/config/landate";
 
   const getLoginUrl: string = "/login";
   const noAccessUrl: string = "/noaccess";
@@ -28,6 +29,7 @@ export const useUrlGenerator = () => {
     apiGameUpVote,
     apiGameDownVote,
     apiMaxVotes,
+    apiConfigLanDate,
     getLoginUrl,
     noAccessUrl,
     gamePage,

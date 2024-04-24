@@ -12,3 +12,7 @@ export interface ResponseToken {
 export interface ResponseAuthMessage {
   token: ResponseToken;
 }
+
+export interface RequestConfigBody {
+  lanDate: string;
+}

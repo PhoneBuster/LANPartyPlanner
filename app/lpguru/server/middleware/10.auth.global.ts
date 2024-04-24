@@ -46,6 +46,7 @@ export default defineEventHandler(async (event) => {
       urlGenerator.apiCreateUser,
       urlGenerator.apiRemoveUser,
       urlGenerator.apiMaxVotes,
+      urlGenerator.apiConfigLanDate,
     ])
   ) {
     return;

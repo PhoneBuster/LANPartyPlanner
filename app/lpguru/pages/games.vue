@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import type { LanGame } from "~/types/games/gameTypes";
-
+//1718460000000
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>([]);
 const currentLanGameId = ref("");
 const gameService = useGameService();
+const configService = useConfigService();
 const urlGenerater = useUrlGenerator();
-
+const lanDate = ref<number>(0);
 function openNewGameForm(): void {
   isNewGameFormOpen.value = true;
 }
@@ -31,6 +32,15 @@ async function loadLanGames() {
   }
 
   lanGameItems.value = response.data;
+}
+
+async function loadLanDate() {
+  const lanDateResponse = (await configService.getLanDate()) as number;
+
+  if (!lanDateResponse) {
+    return;
+  }
+  lanDate.value = lanDateResponse;
 }
 
 function deleteLanGame(lanGameId: string) {
@@ -119,6 +129,7 @@ function removeGameDownVote(lanGameId: string) {
 
 onMounted(() => {
   loadLanGames();
+  loadLanDate();
 });
 </script>
 
@@ -126,7 +137,9 @@ onMounted(() => {
   <div>
     <NuxtLayout>
       <template #header>
-        <HudContainer />
+        <HudContainer>
+          <HudCounter :timestamp="lanDate" />
+        </HudContainer>
       </template>
       <template #content>
         <FormNewGame
