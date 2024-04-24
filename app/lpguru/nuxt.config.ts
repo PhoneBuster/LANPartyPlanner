@@ -24,6 +24,10 @@ export default defineNuxtConfig({
         driver: "fs",
         base: "/home/node/data/votes",
       },
+      config: {
+        driver: "fs",
+        base: "/home/node/data/config",
+      },
     },
   },
   vite: {
