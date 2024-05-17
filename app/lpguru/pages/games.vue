@@ -1,13 +1,19 @@
 <script setup lang="ts">
 import type { LanGame } from "~/types/games/gameTypes";
-//1718460000000
+import { useVoteService } from "~/composables/useVoteService";
+import { useUserService } from "~/composables/useUserService";
+
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>([]);
+const maxVotes = ref(0);
+const currentUserVotes = ref(0);
 const currentLanGameId = ref("");
 const gameService = useGameService();
 const configService = useConfigService();
 const urlGenerater = useUrlGenerator();
+const voteService = useVoteService();
+const userService = useUserService();
 const lanDate = ref<number>(0);
 function openNewGameForm(): void {
   isNewGameFormOpen.value = true;
@@ -25,6 +31,16 @@ function closeEditGameForm() {
   isEditFormOpen.value = false;
 }
 
+async function loadMaxVotes() {
+  const response = await voteService.getMaxVotes();
+
+  if (!response) {
+    return;
+  }
+
+  maxVotes.value = response;
+}
+
 async function loadLanGames() {
   const response = await gameService.getAll();
   if (!response) {
@@ -32,6 +48,15 @@ async function loadLanGames() {
   }
 
   lanGameItems.value = response.data;
+}
+
+async function loadUserCurrentVotes() {
+  const response = await userService.getCurrentVotes();
+
+  if (!response) {
+    return;
+  }
+  currentUserVotes.value = response;
 }
 
 async function loadLanDate() {
@@ -71,6 +96,7 @@ function gameUpVote(lanGameId: string) {
   })
     .then(() => {
       loadLanGames();
+      loadUserCurrentVotes();
     })
     .catch((error) => {
       console.error(error);
@@ -88,6 +114,7 @@ function gameDownVote(lanGameId: string) {
   })
     .then(() => {
       loadLanGames();
+      loadUserCurrentVotes();
     })
     .catch((error) => {
       console.error(error);
@@ -105,6 +132,7 @@ function removeGameUpVote(lanGameId: string) {
   })
     .then(() => {
       loadLanGames();
+      loadUserCurrentVotes();
     })
     .catch((error) => {
       console.error(error);
@@ -121,6 +149,7 @@ function removeGameDownVote(lanGameId: string) {
   })
     .then(() => {
       loadLanGames();
+      loadUserCurrentVotes();
     })
     .catch((error) => {
       console.error(error);
@@ -129,7 +158,9 @@ function removeGameDownVote(lanGameId: string) {
 
 onMounted(() => {
   loadLanGames();
+  loadUserCurrentVotes();
   loadLanDate();
+  loadMaxVotes();
 });
 </script>
 
@@ -139,6 +170,12 @@ onMounted(() => {
       <template #header>
         <HudContainer>
           <HudCounter :timestamp="lanDate" />
+          <template #rightColumn>
+            <HudVotesLeft
+              :current-user-votes="currentUserVotes"
+              :max-votes="maxVotes"
+            />
+          </template>
         </HudContainer>
       </template>
       <template #content>

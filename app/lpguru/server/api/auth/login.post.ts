@@ -43,7 +43,7 @@ export default defineEventHandler(async (event) => {
   currentTickets.tickets.push(ticketData);
   await ticketStorage.setItem("tickets", currentTickets);
 
-  setCookie(event, "langame", ticket);
+  setCookie(event, "langame", ticket, { maxAge: 60 * 60 * 24 * 7 });
 
-  sendRedirect(event, urlGenerator.homePage);
+  await sendRedirect(event, urlGenerator.homePage);
 });
