@@ -39,7 +39,6 @@ export default defineEventHandler(async (event) => {
   }
 
   user.currentVotes = user.currentVotes ?? 0;
-  console.log(user.currentVotes, voteItem.maxVotes);
 
   if (user.currentVotes === 0) {
     setResponseStatus(event, 202, "No more votes to remove!!!");

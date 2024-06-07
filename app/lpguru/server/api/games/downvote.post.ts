@@ -39,7 +39,6 @@ export default defineEventHandler(async (event) => {
   }
 
   user.currentVotes = user.currentVotes ?? 0;
-  console.log(user.currentVotes, voteItem.maxVotes);
 
   if (user.currentVotes >= voteItem.maxVotes) {
     setResponseStatus(event, 202, "No more votes available!");

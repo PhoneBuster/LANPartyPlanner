@@ -1,6 +1,6 @@
 import type { VoteStorage } from "~/types/games/storageTypes";
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async () => {
   const voteStorage = useStorage("votes");
 
   const voteParams = await voteStorage.getItem<VoteStorage>("voteParams");
