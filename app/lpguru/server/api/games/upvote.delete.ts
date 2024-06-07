@@ -28,7 +28,6 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const { voteItem } = await useVotes();
   const { user } = await useUserStorage(currentTicket.username);
 
   if (!user) {
