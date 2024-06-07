@@ -10,7 +10,6 @@ export default defineEventHandler(async (event) => {
   }
 
   const newLanDate = new Date(body.lanDate).getTime();
-  console.log(newLanDate);
   if (!newLanDate) {
     throw createError({
       statusCode: 400,

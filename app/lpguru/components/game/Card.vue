@@ -14,6 +14,9 @@ const emit = defineEmits([
   "vote-remove:upvote",
   "vote-remove:downvote",
 ]);
+
+const { onMultiClick } = useMultiClick();
+
 const gameService = useGameService();
 const genreImageClass = computed(() => {
   let bgClass = "";
@@ -115,12 +118,12 @@ function editGame() {
           <BaseUpVote
             :counter="upVotes"
             class="mr-2"
-            @click.exact="onUpVote"
+            @click.exact="onMultiClick([onUpVote, onUpVoteRemove])"
             @click.ctrl.exact="onUpVoteRemove"
           />
           <BaseDownVote
             :counter="downVotes"
-            @click.exact="onDownVote"
+            @click.exact="onMultiClick([onDownVote, onDownVoteRemove])"
             @click.ctrl.exact="onDownVoteRemove"
           />
           <GameEdit

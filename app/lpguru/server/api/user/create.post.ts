@@ -29,8 +29,6 @@ export default defineEventHandler(async (event) => {
     gameVotes: [],
   };
 
-  console.log(data);
-
   try {
     console.log(`Creating user ${body.username}...`);
     await userStorage.setItem(body.username, data);
