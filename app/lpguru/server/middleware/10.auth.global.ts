@@ -1,59 +1,60 @@
-import { useExcludeRoutes } from "~/composables/useExcludeRoutes";
-import { useUrlGenerator } from "~/composables/useUrlGenerator";
-import { H3Event, sendRedirect } from "h3";
-import type { Ticket, TicketStorage } from "~/types/games/storageTypes";
+import { useExcludeRoutes } from '~/composables/useExcludeRoutes';
+import { useUrlGenerator } from '~/composables/useUrlGenerator';
+import { H3Event, sendRedirect } from 'h3';
+import type { Ticket, TicketStorage } from '~/types/games/storageTypes';
 
 const urlGenerator = useUrlGenerator();
 const excludeRoutes = useExcludeRoutes();
 
 const ensureAccess = async (event: H3Event) => {
-  const token = await getCookie(event, "langame");
-  const ticketStorage = useStorage("tickets");
-  if (!ticketStorage || !token) {
-    return false;
-  }
+    const token = await getCookie(event, 'langame');
+    const ticketStorage = useStorage('tickets');
+    if (!ticketStorage || !token) {
+        return false;
+    }
 
-  const ticketContainer: TicketStorage | null =
-    await ticketStorage.getItem("tickets");
+    const ticketContainer: TicketStorage | null =
+    await ticketStorage.getItem('tickets');
 
-  if (!ticketContainer) {
-    return false;
-  }
+    if (!ticketContainer) {
+        return false;
+    }
 
-  const item = ticketContainer.tickets.find((item: Ticket) => {
-    return item.ticket === token;
-  });
+    const item = ticketContainer.tickets.find((item: Ticket) => {
+        return item.ticket === token;
+    });
 
-  if (!item) {
-    return false;
-  }
+    if (!item) {
+        return false;
+    }
 
-  return true;
+    return true;
 };
 
 export default defineEventHandler(async (event) => {
-  if (process.client) {
-    return;
-  }
+    if (process.client) {
+        return;
+    }
 
-  const path = getRequestPath(event);
+    const path = getRequestPath(event);
 
-  if (
-    excludeRoutes.exclude(path, [
-      urlGenerator.getLoginUrl,
-      urlGenerator.apiLoginUrl,
-      urlGenerator.noAccessUrl,
-      urlGenerator.apiCreateUser,
-      urlGenerator.apiRemoveUser,
-      urlGenerator.apiMaxVotes,
-      urlGenerator.apiConfigLanDate,
-    ])
-  ) {
-    return;
-  }
+    if (
+        excludeRoutes.exclude(path, [
+            urlGenerator.getLoginUrl,
+            urlGenerator.apiLoginUrl,
+            urlGenerator.noAccessUrl,
+            urlGenerator.apiCreateUser,
+            urlGenerator.apiRemoveUser,
+            urlGenerator.apiMaxVotes,
+            urlGenerator.apiConfigLanDate,
+            urlGenerator.apiResetAll,
+        ])
+    ) {
+        return;
+    }
 
-  const hasAccess = await ensureAccess(event);
-  if (!hasAccess) {
-    return sendRedirect(event, urlGenerator.getLoginUrl);
-  }
+    const hasAccess = await ensureAccess(event);
+    if (!hasAccess) {
+        return sendRedirect(event, urlGenerator.getLoginUrl);
+    }
 });

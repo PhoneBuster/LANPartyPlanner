@@ -56,6 +56,7 @@ async function loadUserCurrentVotes() {
   if (!response) {
     return;
   }
+
   currentUserVotes.value = response;
 }
 
