@@ -2,6 +2,7 @@
 import type { LanGame } from '~/types/games/gameTypes';
 import { useVoteService } from '~/composables/useVoteService';
 import { useUserService } from '~/composables/useUserService';
+import type {SplideOptions, SplideSlider} from '~/types/splide/splideTypes';
 
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
@@ -15,6 +16,39 @@ const urlGenerater = useUrlGenerator();
 const voteService = useVoteService();
 const userService = useUserService();
 const lanDate = ref<number>(0);
+const vueSplide = ref(null);
+
+const splideOptions = computed(() => {
+    return {
+        rewind: true,
+        padding: '1rem 2rem',
+        classes: {
+            prev: 'splide__arrow--prev custom-arrow-prev',
+            next: 'splide__arrow--next custom-arrow-next',
+        },
+
+
+
+        mediaQuery: 'min',
+        breakpoints: {
+            1400: {
+                perPage: 3,
+                width: '1300px',
+            },
+            768: {
+                perPage: 1,
+                width: '70vw',
+            },
+            1: {
+                perPage: 1,
+                width: '100vw',
+            },
+        },
+    };
+});
+
+
+
 function openNewGameForm(): void {
     isNewGameFormOpen.value = true;
 }
@@ -47,7 +81,7 @@ async function loadLanGames() {
         return;
     }
 
-    lanGameItems.value = response.data;
+    lanGameItems.value = response.data || [];
 }
 
 async function loadUserCurrentVotes() {
@@ -157,6 +191,14 @@ function removeGameDownVote(lanGameId: string) {
         });
 }
 
+function refreshSplide($event: SplideSlider) {
+    const splideOptions: SplideOptions = $event?.options;
+
+    if (splideOptions.width === '1300px') {
+        splideOptions.perPage = lanGameItems.value.length > 3 ? 3 : lanGameItems.value.length;
+    }
+}
+
 onMounted(() => {
     loadLanGames();
     loadUserCurrentVotes();
@@ -194,29 +236,11 @@ onMounted(() => {
         <div class="game-content">
           <div class="game-content-slider">
             <Splide
-              class="px-12 py-8"
-              :options="{
-                rewind: true,
-                padding: '1rem 2rem',
-                classes: {
-                  prev: 'splide__arrow--prev custom-arrow-prev',
-                  next: 'splide__arrow--next custom-arrow-next',
-                },
-
-                width: '100vw',
-                perPage: 1,
-                mediaQuery: 'min',
-                breakpoints: {
-                  768: {
-                    width: '70vw',
-                  },
-                  1400: {
-                    perPage: 3,
-                    width: '1300px',
-                  },
-                },
-              }"
+                ref="vueSplide"
+                class="px-12 py-8"
+              :options="splideOptions"
               aria-label="My Favorite Images"
+              @splide:refresh="refreshSplide"
             >
               <SplideSlide v-for="lanGame in lanGameItems" :key="lanGame.id">
                 <GameCard
