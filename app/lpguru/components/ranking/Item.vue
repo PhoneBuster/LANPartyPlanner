@@ -1,25 +1,25 @@
 <script setup lang="ts">
 defineProps({
-  position: {
-    type: Number,
-    required: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: String,
-    required: true,
-  },
-  upVotes: {
-    type: Number,
-    required: true,
-  },
-  downVotes: {
-    type: Number,
-    required: true,
-  },
+    position: {
+        type: Number,
+        required: true,
+    },
+    name: {
+        type: String,
+        required: true,
+    },
+    price: {
+        type: String,
+        required: true,
+    },
+    upVotes: {
+        type: Number,
+        required: true,
+    },
+    downVotes: {
+        type: Number,
+        required: true,
+    },
 });
 </script>
 

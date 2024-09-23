@@ -1,6 +1,6 @@
 <script setup lang="ts">
 function startApp() {
-  navigateTo("/games");
+    navigateTo('/games');
 }
 </script>
 definePageMeta({ layout: false, });
@@ -11,7 +11,7 @@ definePageMeta({ layout: false, });
         <img
           class="w-full md:w-[600px] lg:w-[700px]"
           src="/images/general/controller_small.png"
-        />
+        >
       </div>
       <div class="flex justify-center items-center">
         <base-button

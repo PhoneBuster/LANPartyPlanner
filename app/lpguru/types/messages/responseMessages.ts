@@ -1,7 +1,7 @@
 export interface ResponseMessage {
   status: number;
   message: string;
-  data?: any;
+  data?: never;
 }
 
 export interface ResponseToken {

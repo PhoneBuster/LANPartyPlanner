@@ -2,7 +2,7 @@
 const urlGenerator = useUrlGenerator();
 
 const apiLoginUrl = computed(() => {
-  return urlGenerator.apiLoginUrl;
+    return urlGenerator.apiLoginUrl;
 });
 </script>
 
@@ -17,7 +17,7 @@ const apiLoginUrl = computed(() => {
           <BaseInput name="password" type="password" />
         </BaseLabel>
         <AlignVerticalLine class="mt-4">
-          <BaseButton type="submit" button-type="x" class="mr-2"></BaseButton>
+          <BaseButton type="submit" button-type="x" class="mr-2"/>
           <span>Login</span>
         </AlignVerticalLine>
       </form>

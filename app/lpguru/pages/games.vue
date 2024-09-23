@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { LanGame } from "~/types/games/gameTypes";
-import { useVoteService } from "~/composables/useVoteService";
-import { useUserService } from "~/composables/useUserService";
+import type { LanGame } from '~/types/games/gameTypes';
+import { useVoteService } from '~/composables/useVoteService';
+import { useUserService } from '~/composables/useUserService';
 
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>([]);
 const maxVotes = ref(0);
 const currentUserVotes = ref(0);
-const currentLanGameId = ref("");
+const currentLanGameId = ref('');
 const gameService = useGameService();
 const configService = useConfigService();
 const urlGenerater = useUrlGenerator();
@@ -16,151 +16,152 @@ const voteService = useVoteService();
 const userService = useUserService();
 const lanDate = ref<number>(0);
 function openNewGameForm(): void {
-  isNewGameFormOpen.value = true;
+    isNewGameFormOpen.value = true;
 }
 
 function closeNewGameForm() {
-  isNewGameFormOpen.value = false;
+    isNewGameFormOpen.value = false;
 }
 
 function openEditGameForm() {
-  isEditFormOpen.value = true;
+    isEditFormOpen.value = true;
 }
 
 function closeEditGameForm() {
-  isEditFormOpen.value = false;
+    isEditFormOpen.value = false;
 }
 
 async function loadMaxVotes() {
-  const response = await voteService.getMaxVotes();
+    const response = await voteService.getMaxVotes();
 
-  if (!response) {
-    return;
-  }
+    if (!response) {
+        return;
+    }
 
-  maxVotes.value = response;
+    maxVotes.value = response;
 }
 
 async function loadLanGames() {
-  const response = await gameService.getAll();
-  if (!response) {
-    return;
-  }
+    const response = await gameService.getAll();
+    if (!response) {
+        return;
+    }
 
-  lanGameItems.value = response.data;
+    lanGameItems.value = response.data;
 }
 
 async function loadUserCurrentVotes() {
-  const response = await userService.getCurrentVotes();
+    const response = await userService.getCurrentVotes();
 
-  if (!response) {
-    return;
-  }
-  currentUserVotes.value = response;
+    if (!response) {
+        return;
+    }
+
+    currentUserVotes.value = response;
 }
 
 async function loadLanDate() {
-  const lanDateResponse = (await configService.getLanDate()) as number;
+    const lanDateResponse = (await configService.getLanDate()) as number;
 
-  if (!lanDateResponse) {
-    return;
-  }
-  lanDate.value = lanDateResponse;
+    if (!lanDateResponse) {
+        return;
+    }
+    lanDate.value = lanDateResponse;
 }
 
 function deleteLanGame(lanGameId: string) {
-  const isConfirmed = confirm("Wirklich entfernen?");
+    const isConfirmed = confirm('Wirklich entfernen?');
 
-  if (!isConfirmed) {
-    return;
-  }
+    if (!isConfirmed) {
+        return;
+    }
 
-  gameService.deleteGame(lanGameId).then(() => {
-    loadLanGames();
-  });
+    gameService.deleteGame(lanGameId).then(() => {
+        loadLanGames();
+    });
 }
 
 function editLanGame(lanGameId: string) {
-  currentLanGameId.value = lanGameId;
-  openEditGameForm();
+    currentLanGameId.value = lanGameId;
+    openEditGameForm();
 }
 
 function gameUpVote(lanGameId: string) {
-  $fetch(urlGenerater.apiGameUpVote, {
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({ lanGameId }),
-  })
-    .then(() => {
-      loadLanGames();
-      loadUserCurrentVotes();
+    $fetch(urlGenerater.apiGameUpVote, {
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ lanGameId }),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+        .then(() => {
+            loadLanGames();
+            loadUserCurrentVotes();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 function gameDownVote(lanGameId: string) {
-  $fetch(urlGenerater.apiGameDownVote, {
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    method: "POST",
-    body: JSON.stringify({ lanGameId }),
-  })
-    .then(() => {
-      loadLanGames();
-      loadUserCurrentVotes();
+    $fetch(urlGenerater.apiGameDownVote, {
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({ lanGameId }),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+        .then(() => {
+            loadLanGames();
+            loadUserCurrentVotes();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 function removeGameUpVote(lanGameId: string) {
-  $fetch(urlGenerater.apiGameUpVote, {
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    method: "DELETE",
-    body: JSON.stringify({ lanGameId }),
-  })
-    .then(() => {
-      loadLanGames();
-      loadUserCurrentVotes();
+    $fetch(urlGenerater.apiGameUpVote, {
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json',
+        },
+        method: 'DELETE',
+        body: JSON.stringify({ lanGameId }),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+        .then(() => {
+            loadLanGames();
+            loadUserCurrentVotes();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 function removeGameDownVote(lanGameId: string) {
-  $fetch(urlGenerater.apiGameDownVote, {
-    headers: {
-      "content-type": "application/json",
-      accept: "application/json",
-    },
-    method: "DELETE",
-    body: JSON.stringify({ lanGameId }),
-  })
-    .then(() => {
-      loadLanGames();
-      loadUserCurrentVotes();
+    $fetch(urlGenerater.apiGameDownVote, {
+        headers: {
+            'content-type': 'application/json',
+            accept: 'application/json',
+        },
+        method: 'DELETE',
+        body: JSON.stringify({ lanGameId }),
     })
-    .catch((error) => {
-      console.error(error);
-    });
+        .then(() => {
+            loadLanGames();
+            loadUserCurrentVotes(); 
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 onMounted(() => {
-  loadLanGames();
-  loadUserCurrentVotes();
-  loadLanDate();
-  loadMaxVotes();
+    loadLanGames();
+    loadUserCurrentVotes();
+    loadLanDate();
+    loadMaxVotes();
 });
 </script>
 
@@ -252,7 +253,7 @@ onMounted(() => {
           <RankingGames :lan-games="lanGameItems" />
         </div>
       </template>
-      <template #footer></template>
+      <template #footer/>
     </NuxtLayout>
   </div>
 </template>
