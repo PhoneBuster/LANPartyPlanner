@@ -1,6 +1,7 @@
 import { useExcludeRoutes } from '~/composables/useExcludeRoutes';
 import { useUrlGenerator } from '~/composables/useUrlGenerator';
-import { H3Event, sendRedirect } from 'h3';
+import type { H3Event} from 'h3';
+import { sendRedirect } from 'h3';
 import type { Ticket, TicketStorage } from '~/types/games/storageTypes';
 
 const urlGenerator = useUrlGenerator();
@@ -32,7 +33,7 @@ const ensureAccess = async (event: H3Event) => {
 };
 
 export default defineEventHandler(async (event) => {
-    if (process.client) {
+    if (import.meta.client) {
         return;
     }
 

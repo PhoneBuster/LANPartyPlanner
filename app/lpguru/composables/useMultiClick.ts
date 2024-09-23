@@ -1,4 +1,4 @@
-import { type eventCallbackFunction } from '@/types/callback/callbackTypes';
+import type { eventCallbackFunction } from '@/types/callback/callbackTypes';
 
 let multiClicks = 0;
 const timeoutIds: NodeJS.Timeout[] = [];

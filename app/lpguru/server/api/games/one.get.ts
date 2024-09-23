@@ -1,4 +1,4 @@
-import { LanGame } from '~/types/games/gameTypes';
+import type { LanGame } from '~/types/games/gameTypes';
 
 export default defineEventHandler(async (event) => {
     const parameter = getQuery(event);

@@ -1,82 +1,82 @@
 <script setup lang="ts">
-import { useGameService } from "~/composables/useGameService";
+import { useGameService } from '~/composables/useGameService';
 
 import {
-  GamingGenre,
-  GamingPlatform,
-  type PlatformOptions,
-  type GenreOptions,
-} from "~/types/games/gameTypes";
+    GamingGenre,
+    GamingPlatform,
+    type PlatformOptions,
+    type GenreOptions,
+} from '~/types/games/gameTypes';
 
 const props = defineProps({
-  lanGameId: {
-    type: String,
-    required: true,
-  },
+    lanGameId: {
+        type: String,
+        required: true,
+    },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const $emit = defineEmits(["close:edit-form", "saved:edit-game"]);
-const gameName = ref("");
-const gamePrice = ref("0");
-const gameDescription = ref("");
+ 
+const $emit = defineEmits(['close:edit-form', 'saved:edit-game']);
+const gameName = ref('');
+const gamePrice = ref('0');
+const gameDescription = ref('');
 const gamePlatform = ref(GamingPlatform.Unknown);
 const gameGenre = ref(GamingGenre.Other);
 const gameService = useGameService();
 async function submitForm() {
-  if (gameName.value === "") {
-    return;
-  }
+    if (gameName.value === '') {
+        return;
+    }
 
-  await gameService.saveNewGame({
-    id: props.lanGameId,
-    name: gameName.value,
-    upVotes: 0,
-    downVotes: 0,
-    creatorId: "ItsMe",
-    platform: gamePlatform.value,
-    genre: gameGenre.value,
-    price: gamePrice.value,
-    description: gameDescription.value,
-  });
+    await gameService.saveNewGame({
+        id: props.lanGameId,
+        name: gameName.value,
+        upVotes: 0,
+        downVotes: 0,
+        creatorId: 'ItsMe',
+        platform: gamePlatform.value,
+        genre: gameGenre.value,
+        price: gamePrice.value,
+        description: gameDescription.value,
+    });
 
-  $emit("saved:edit-game", true);
-  $emit("close:edit-form");
+    $emit('saved:edit-game', true);
+    $emit('close:edit-form');
 }
 
 const platformOptions = computed<PlatformOptions[]>(() => {
-  return gameService.getPlatformOptions();
+    return gameService.getPlatformOptions();
 });
 
 const genreOptions = computed<GenreOptions[]>(() => {
-  return gameService.getGenreOptions();
+    return gameService.getGenreOptions();
 });
 
 function loadLanGame() {
-  if (props.lanGameId === "") {
-    return;
-  }
+    if (props.lanGameId === '') {
+        return;
+    }
 
-  gameService
-    .getGameById(props.lanGameId)
-    .then((game) => {
-      gameName.value = game.name;
-      gamePrice.value = game.price;
-      gameDescription.value = game.description || "";
-      gamePlatform.value = game.platform;
-      gameGenre.value = game.genre;
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    gameService
+        .getGameById(props.lanGameId)
+        .then((game) => {
+            gameName.value = game.name;
+            gamePrice.value = game.price;
+            gameDescription.value = game.description || '';
+            gamePlatform.value = game.platform;
+            gameGenre.value = game.genre;
+        })
+        .catch((error) => {
+            console.error(error);
+        });
 }
 
 watch(
-  () => props.lanGameId,
-  () => {
-    loadLanGame();
-  },
-  { immediate: true },
+    () => props.lanGameId,
+    () => {
+        loadLanGame();
+    },
+    { immediate: true },
 );
 </script>
 

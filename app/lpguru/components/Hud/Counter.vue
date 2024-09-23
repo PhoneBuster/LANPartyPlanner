@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import Timeout = NodeJS.Timeout;
-import { nanoid } from "nanoid";
+import { nanoid } from 'nanoid';
 
 const props = defineProps({
-  timestamp: {
-    type: Number,
-    default: 0,
-  },
+    timestamp: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const month = ref<number>(0);
@@ -16,63 +16,63 @@ const minutes = ref<number>(0);
 const seconds = ref<number>(0);
 const intervalId = ref<Timeout>();
 
-const digitSecondsKey = ref<string>("digit_seconds_" + nanoid(10));
-const digitMinutesKey = ref<string>("digit_minutes_" + nanoid(10));
-const digitHoursKey = ref<string>("digit_hours_" + nanoid(10));
-const digitDaysKey = ref<string>("digit_days_" + nanoid(10));
-const digitMonthKey = ref<string>("digit_seconds_" + nanoid(10));
+const digitSecondsKey = ref<string>('digit_seconds_' + nanoid(10));
+const digitMinutesKey = ref<string>('digit_minutes_' + nanoid(10));
+const digitHoursKey = ref<string>('digit_hours_' + nanoid(10));
+const digitDaysKey = ref<string>('digit_days_' + nanoid(10));
+const digitMonthKey = ref<string>('digit_seconds_' + nanoid(10));
 
 const readableLanDate = computed(() => {
-  if (timeToWaitForLan.value === 0) {
-    return "";
-  }
+    if (timeToWaitForLan.value === 0) {
+        return '';
+    }
 
-  return new Date(props.timestamp).toLocaleString();
+    return new Date(props.timestamp).toLocaleString();
 });
 
 const timeToWaitForLan = computed(() => {
-  if (props.timestamp === 0) {
-    return 0;
-  }
+    if (props.timestamp === 0) {
+        return 0;
+    }
 
-  if (props.timestamp < Date.now()) {
-    return 0;
-  }
+    if (props.timestamp < Date.now()) {
+        return 0;
+    }
 
-  return props.timestamp;
+    return props.timestamp;
 });
 
 const updateCounter = () => {
-  const now = Date.now();
-  const diff = props.timestamp - now;
+    const now = Date.now();
+    const diff = props.timestamp - now;
 
-  month.value = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
-  days.value = Math.floor(
-    (diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24),
-  );
-  hours.value = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  minutes.value = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-  seconds.value = Math.floor((diff % (1000 * 60)) / 1000);
+    month.value = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
+    days.value = Math.floor(
+        (diff % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24),
+    );
+    hours.value = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    minutes.value = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    seconds.value = Math.floor((diff % (1000 * 60)) / 1000);
 };
 
 watch(
-  [seconds, minutes, hours, days, month],
-  ([newSeconds, newMinutes, newHours, newDays, newMonth]) => {
-    digitSecondsKey.value = "digit_seconds_" + newSeconds;
-    digitMinutesKey.value = "digit_minutes_" + newMinutes;
-    digitHoursKey.value = "digit_hours_" + newHours;
-    digitDaysKey.value = "digit_days_" + newDays;
-    digitMonthKey.value = "digit_month_" + newMonth;
-  },
+    [seconds, minutes, hours, days, month],
+    ([newSeconds, newMinutes, newHours, newDays, newMonth]) => {
+        digitSecondsKey.value = 'digit_seconds_' + newSeconds;
+        digitMinutesKey.value = 'digit_minutes_' + newMinutes;
+        digitHoursKey.value = 'digit_hours_' + newHours;
+        digitDaysKey.value = 'digit_days_' + newDays;
+        digitMonthKey.value = 'digit_month_' + newMonth;
+    },
 );
 
 onMounted(() => {
-  updateCounter();
-  intervalId.value = setInterval(updateCounter, 1000);
+    updateCounter();
+    intervalId.value = setInterval(updateCounter, 1000);
 });
 
 onUnmounted(() => {
-  clearInterval(intervalId.value);
+    clearInterval(intervalId.value);
 });
 </script>
 

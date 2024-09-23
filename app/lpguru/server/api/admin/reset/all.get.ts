@@ -1,4 +1,4 @@
-import { UserStorage } from '~/types/games/storageTypes';
+import type { UserStorage } from '~/types/games/storageTypes';
 
 export default defineEventHandler(async (event) => {
     const userStorage = useStorage('user');
