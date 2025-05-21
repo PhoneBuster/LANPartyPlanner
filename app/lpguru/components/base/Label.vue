@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
-    titleText: {
-        type: String,
-        default: '',
-    },
+  titleText: {
+    type: String,
+    default: "",
+  },
 });
 </script>
 

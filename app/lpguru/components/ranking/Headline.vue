@@ -1,25 +1,25 @@
 <script setup lang="ts">
 defineProps({
-    positionText: {
-        type: String,
-        default: 'Position',
-    },
-    nameText: {
-        type: String,
-        default: 'Name',
-    },
-    priceText: {
-        type: String,
-        default: 'Price',
-    },
-    upVotesText: {
-        type: String,
-        default: 'Up Votes',
-    },
-    downVotesText: {
-        type: String,
-        default: 'Down Votes',
-    },
+  positionText: {
+    type: String,
+    default: "Position",
+  },
+  nameText: {
+    type: String,
+    default: "Name",
+  },
+  priceText: {
+    type: String,
+    default: "Price",
+  },
+  upVotesText: {
+    type: String,
+    default: "Up Votes",
+  },
+  downVotesText: {
+    type: String,
+    default: "Down Votes",
+  },
 });
 </script>
 

@@ -1,12 +1,12 @@
 export const useExcludeRoutes = () => {
-    function exclude(originalRoute: string, routes: string[]) {
-        if (routes.includes(originalRoute)) {
-            return true;
-        }
-
-        return false;
+  function exclude(originalRoute: string, routes: string[]) {
+    if (routes.includes(originalRoute)) {
+      return true;
     }
-    return {
-        exclude,
-    };
+
+    return false;
+  }
+  return {
+    exclude,
+  };
 };

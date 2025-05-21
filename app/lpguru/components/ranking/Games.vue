@@ -1,20 +1,19 @@
 <script setup lang="ts">
-import type { LanGame } from '~/types/games/gameTypes';
+import type { LanGame } from "~/types/games/gameTypes";
 
- 
 const props = defineProps({
-    lanGames: {
-        type: Array as PropType<LanGame[]>,
-        required: true,
-    },
+  lanGames: {
+    type: Array as PropType<LanGame[]>,
+    required: true,
+  },
 });
 
 const rankedLanGames = computed(() => {
-    const rankedGames = [...props.lanGames];
+  const rankedGames = [...props.lanGames];
 
-    return rankedGames.sort((a, b) => {
-        return b.upVotes - a.upVotes - (b.downVotes - a.downVotes);
-    });
+  return rankedGames.sort((a, b) => {
+    return b.upVotes - a.upVotes - (b.downVotes - a.downVotes);
+  });
 });
 </script>
 

@@ -1,51 +1,50 @@
 <script setup lang="ts">
-import { useGameService } from '~/composables/useGameService';
-import { nanoid } from 'nanoid';
+import { useGameService } from "~/composables/useGameService";
+import { nanoid } from "nanoid";
 import {
-    GamingGenre,
-    GamingPlatform,
-    type PlatformOptions,
-    type GenreOptions,
-} from '~/types/games/gameTypes';
+  GamingGenre,
+  GamingPlatform,
+  type PlatformOptions,
+  type GenreOptions,
+} from "~/types/games/gameTypes";
 
- 
-const $emit = defineEmits(['close:form', 'saved:game']);
-const gameName = ref('');
-const gamePrice = ref('0');
-const gameDescription = ref('');
+const $emit = defineEmits(["close:form", "saved:game"]);
+const gameName = ref("");
+const gamePrice = ref("0");
+const gameDescription = ref("");
 const gamePlatform = ref(GamingPlatform.Unknown);
 const gameGenre = ref(GamingGenre.Other);
 const isMultiEntryActive = ref(false);
 const gameService = useGameService();
 async function submitForm() {
-    if (gameName.value === '') {
-        return;
-    }
+  if (gameName.value === "") {
+    return;
+  }
 
-    await gameService.saveNewGame({
-        id: nanoid(16),
-        name: gameName.value,
-        upVotes: 0,
-        downVotes: 0,
-        creatorId: 'ItsMe',
-        platform: gamePlatform.value,
-        genre: gameGenre.value,
-        price: gamePrice.value,
-        description: gameDescription.value,
-    });
+  await gameService.saveNewGame({
+    id: nanoid(16),
+    name: gameName.value,
+    upVotes: 0,
+    downVotes: 0,
+    creatorId: "ItsMe",
+    platform: gamePlatform.value,
+    genre: gameGenre.value,
+    price: gamePrice.value,
+    description: gameDescription.value,
+  });
 
-    $emit('saved:game', true);
-    if (!isMultiEntryActive.value) {
-        $emit('close:form');
-    }
+  $emit("saved:game", true);
+  if (!isMultiEntryActive.value) {
+    $emit("close:form");
+  }
 }
 
 const platformOptions = computed<PlatformOptions[]>(() => {
-    return gameService.getPlatformOptions();
+  return gameService.getPlatformOptions();
 });
 
 const genreOptions = computed<GenreOptions[]>(() => {
-    return gameService.getGenreOptions();
+  return gameService.getGenreOptions();
 });
 </script>
 

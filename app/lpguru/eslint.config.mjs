@@ -1,33 +1,13 @@
 // @ts-check
-import withNuxt from './.nuxt/eslint.config.mjs';
+import withNuxt from "./.nuxt/eslint.config.mjs";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 
-export default withNuxt(
-    {
-        'languageOptions': {
-            'globals': {
-                'browser': true,
-                'es2021': true,
-                'node': true,
-            },
-        },
-        'rules': {
-            'indent': [
-                'error',
-                4,
-            ],
-            'linebreak-style': [
-                'error',
-                'unix',
-            ],
-            'quotes': [
-                'error',
-                'single',
-            ],
-            'semi': [
-                'error',
-                'always',
-            ],
-            'comma-dangle': ['error', 'always-multiline'],
-        },
+export default withNuxt(eslintPluginPrettierRecommended, {
+  languageOptions: {
+    globals: {
+      browser: true,
+      es2021: true,
+      node: true,
     },
-);
+  },
+});
