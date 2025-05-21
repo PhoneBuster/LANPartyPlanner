@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const token = getCookie(event, "langame");
   const { tickets } = await useTicketStorage();
 
-  const currentTicket: Ticket = tickets.find(
+  const currentTicket: Ticket | undefined = tickets?.find(
     (item: Ticket) => item.ticket === token,
   );
 
@@ -45,7 +45,9 @@ export default defineEventHandler(async (event) => {
   } else {
     const gameStorage = useStorage("db");
     const userStorage = useStorage("user");
-    const lanGame: LanGame | null = await gameStorage.getItem(body.lanGameId);
+    const lanGame: LanGame | null = (await gameStorage.getItem(
+      body.lanGameId,
+    )) as LanGame;
 
     if (!lanGame) {
       throw createError({

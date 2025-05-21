@@ -23,3 +23,6 @@ export interface GameVote {
   upVotes: number;
   downVotes: number;
 }
+export interface DifferentUserVotes {
+  lanGameId: string;
+}

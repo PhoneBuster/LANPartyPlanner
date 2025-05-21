@@ -12,7 +12,16 @@ const rankedLanGames = computed(() => {
   const rankedGames = [...props.lanGames];
 
   return rankedGames.sort((a, b) => {
-    return b.upVotes - a.upVotes - (b.downVotes - a.downVotes);
+    const differentUserVotes =
+      b.differentUserUpVotes -
+      a.differentUserUpVotes -
+      (b.differentUserDownVotes - a.differentUserDownVotes);
+    const normalVotes = b.upVotes - a.upVotes - (b.downVotes - a.downVotes);
+
+    if (differentUserVotes !== 0) {
+      return differentUserVotes;
+    }
+    return normalVotes;
   });
 });
 </script>

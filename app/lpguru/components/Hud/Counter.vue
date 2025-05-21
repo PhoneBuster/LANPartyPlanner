@@ -80,23 +80,21 @@ onUnmounted(() => {
   <div class="hud-counter">
     <div class="hud-counter__info">Nächste Lan {{ readableLanDate }}</div>
     <div v-if="timeToWaitForLan !== 0" class="hud-counter__digits">
-      <TransitionGroup name="digit">
-        <span :key="digitMonthKey" class="digit hud-counter__digits__month"
-          >{{ month }}M</span
-        >
-        <span :key="digitDaysKey" class="digit hud-counter__digits__days"
-          >{{ days }}T</span
-        >
-        <span :key="digitHoursKey" class="digit hud-counter__digits__hours"
-          >{{ hours }}H</span
-        >
-        <span :key="digitMinutesKey" class="digit hud-counter__digits__minutes"
-          >{{ minutes }}m</span
-        >
-        <span :key="digitSecondsKey" class="digit hud-counter__digits__seconds"
-          >{{ seconds }}s</span
-        >
-      </TransitionGroup>
+      <span :key="digitMonthKey" class="digit hud-counter__digits__month"
+        >{{ month }}M</span
+      >
+      <span :key="digitDaysKey" class="digit hud-counter__digits__days"
+        >{{ days }}T</span
+      >
+      <span :key="digitHoursKey" class="digit hud-counter__digits__hours"
+        >{{ hours }}H</span
+      >
+      <span :key="digitMinutesKey" class="digit hud-counter__digits__minutes"
+        >{{ minutes }}m</span
+      >
+      <span :key="digitSecondsKey" class="digit hud-counter__digits__seconds"
+        >{{ seconds }}s</span
+      >
     </div>
     <div v-else class="hud-counter__not-planned">
       <span>Ungeplant</span>
