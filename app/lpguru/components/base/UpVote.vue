@@ -1,10 +1,10 @@
 <script setup lang="ts">
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const props = defineProps({
-    counter: {
-        type: Number,
-        default: 0,
-    },
+  counter: {
+    type: Number,
+    default: 0,
+  },
 });
 </script>
 

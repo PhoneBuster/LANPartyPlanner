@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { LanGame } from '~/types/games/gameTypes';
-import { useVoteService } from '~/composables/useVoteService';
-import { useUserService } from '~/composables/useUserService';
-import type {SplideOptions, SplideSlider} from '~/types/splide/splideTypes';
+import type { LanGame } from "~/types/games/gameTypes";
+import { useVoteService } from "~/composables/useVoteService";
+import { useUserService } from "~/composables/useUserService";
+import type { SplideOptions, SplideSlider } from "~/types/splide/splideTypes";
 
 const isNewGameFormOpen = ref(false);
 const isEditFormOpen = ref(false);
 const lanGameItems = ref<LanGame[]>([]);
 const maxVotes = ref(0);
 const currentUserVotes = ref(0);
-const currentLanGameId = ref('');
+const currentLanGameId = ref("");
 const gameService = useGameService();
 const configService = useConfigService();
 const urlGenerater = useUrlGenerator();
@@ -19,191 +19,188 @@ const lanDate = ref<number>(0);
 const vueSplide = ref(null);
 
 const splideOptions = computed(() => {
-    return {
-        rewind: true,
-        padding: '1rem 2rem',
-        classes: {
-            prev: 'splide__arrow--prev custom-arrow-prev',
-            next: 'splide__arrow--next custom-arrow-next',
-        },
+  return {
+    rewind: true,
+    padding: "1rem 2rem",
+    classes: {
+      prev: "splide__arrow--prev custom-arrow-prev",
+      next: "splide__arrow--next custom-arrow-next",
+    },
 
-
-
-        mediaQuery: 'min',
-        breakpoints: {
-            1400: {
-                perPage: 3,
-                width: '1300px',
-            },
-            768: {
-                perPage: 1,
-                width: '70vw',
-            },
-            1: {
-                perPage: 1,
-                width: '100vw',
-            },
-        },
-    };
+    mediaQuery: "min",
+    breakpoints: {
+      1400: {
+        perPage: 3,
+        width: "1300px",
+      },
+      768: {
+        perPage: 1,
+        width: "70vw",
+      },
+      1: {
+        perPage: 1,
+        width: "100vw",
+      },
+    },
+  };
 });
 
-
-
 function openNewGameForm(): void {
-    isNewGameFormOpen.value = true;
+  isNewGameFormOpen.value = true;
 }
 
 function closeNewGameForm() {
-    isNewGameFormOpen.value = false;
+  isNewGameFormOpen.value = false;
 }
 
 function openEditGameForm() {
-    isEditFormOpen.value = true;
+  isEditFormOpen.value = true;
 }
 
 function closeEditGameForm() {
-    isEditFormOpen.value = false;
+  isEditFormOpen.value = false;
 }
 
 async function loadMaxVotes() {
-    const response = await voteService.getMaxVotes();
+  const response = await voteService.getMaxVotes();
 
-    if (!response) {
-        return;
-    }
+  if (!response) {
+    return;
+  }
 
-    maxVotes.value = response;
+  maxVotes.value = response;
 }
 
 async function loadLanGames() {
-    const response = await gameService.getAll();
-    if (!response) {
-        return;
-    }
+  const response = await gameService.getAll();
+  if (!response) {
+    return;
+  }
 
-    lanGameItems.value = response.data || [];
+  lanGameItems.value = response.data || [];
 }
 
 async function loadUserCurrentVotes() {
-    const response = await userService.getCurrentVotes();
+  const response = await userService.getCurrentVotes();
 
-    if (!response) {
-        return;
-    }
+  if (!response) {
+    return;
+  }
 
-    currentUserVotes.value = response;
+  currentUserVotes.value = response;
 }
 
 async function loadLanDate() {
-    const lanDateResponse = (await configService.getLanDate()) as number;
+  const lanDateResponse = (await configService.getLanDate()) as number;
 
-    if (!lanDateResponse) {
-        return;
-    }
-    lanDate.value = lanDateResponse;
+  if (!lanDateResponse) {
+    return;
+  }
+  lanDate.value = lanDateResponse;
 }
 
 function deleteLanGame(lanGameId: string) {
-    const isConfirmed = confirm('Wirklich entfernen?');
+  const isConfirmed = confirm("Wirklich entfernen?");
 
-    if (!isConfirmed) {
-        return;
-    }
+  if (!isConfirmed) {
+    return;
+  }
 
-    gameService.deleteGame(lanGameId).then(() => {
-        loadLanGames();
-    });
+  gameService.deleteGame(lanGameId).then(() => {
+    loadLanGames();
+  });
 }
 
 function editLanGame(lanGameId: string) {
-    currentLanGameId.value = lanGameId;
-    openEditGameForm();
+  currentLanGameId.value = lanGameId;
+  openEditGameForm();
 }
 
 function gameUpVote(lanGameId: string) {
-    $fetch(urlGenerater.apiGameUpVote, {
-        headers: {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ lanGameId }),
+  $fetch(urlGenerater.apiGameUpVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+      loadUserCurrentVotes();
     })
-        .then(() => {
-            loadLanGames();
-            loadUserCurrentVotes();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 function gameDownVote(lanGameId: string) {
-    $fetch(urlGenerater.apiGameDownVote, {
-        headers: {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({ lanGameId }),
+  $fetch(urlGenerater.apiGameDownVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "POST",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+      loadUserCurrentVotes();
     })
-        .then(() => {
-            loadLanGames();
-            loadUserCurrentVotes();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 function removeGameUpVote(lanGameId: string) {
-    $fetch(urlGenerater.apiGameUpVote, {
-        headers: {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        method: 'DELETE',
-        body: JSON.stringify({ lanGameId }),
+  $fetch(urlGenerater.apiGameUpVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "DELETE",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+      loadUserCurrentVotes();
     })
-        .then(() => {
-            loadLanGames();
-            loadUserCurrentVotes();
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    .catch((error) => {
+      console.error(error);
+    });
 }
 function removeGameDownVote(lanGameId: string) {
-    $fetch(urlGenerater.apiGameDownVote, {
-        headers: {
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        method: 'DELETE',
-        body: JSON.stringify({ lanGameId }),
+  $fetch(urlGenerater.apiGameDownVote, {
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    method: "DELETE",
+    body: JSON.stringify({ lanGameId }),
+  })
+    .then(() => {
+      loadLanGames();
+      loadUserCurrentVotes();
     })
-        .then(() => {
-            loadLanGames();
-            loadUserCurrentVotes(); 
-        })
-        .catch((error) => {
-            console.error(error);
-        });
+    .catch((error) => {
+      console.error(error);
+    });
 }
 
 function refreshSplide($event: SplideSlider) {
-    const splideOptions: SplideOptions = $event?.options;
+  const splideOptions: SplideOptions = $event?.options;
 
-    if (splideOptions.width === '1300px') {
-        splideOptions.perPage = lanGameItems.value.length > 3 ? 3 : lanGameItems.value.length;
-    }
+  if (splideOptions.width === "1300px") {
+    splideOptions.perPage =
+      lanGameItems.value.length > 3 ? 3 : lanGameItems.value.length;
+  }
 }
 
 onMounted(() => {
-    loadLanGames();
-    loadUserCurrentVotes();
-    loadLanDate();
-    loadMaxVotes();
+  loadLanGames();
+  loadUserCurrentVotes();
+  loadLanDate();
+  loadMaxVotes();
 });
 </script>
 
@@ -236,8 +233,8 @@ onMounted(() => {
         <div class="game-content">
           <div class="game-content-slider">
             <Splide
-                ref="vueSplide"
-                class="px-12 py-8"
+              ref="vueSplide"
+              class="px-12 py-8"
               :options="splideOptions"
               aria-label="My Favorite Images"
               @splide:refresh="refreshSplide"
@@ -277,7 +274,7 @@ onMounted(() => {
           <RankingGames :lan-games="lanGameItems" />
         </div>
       </template>
-      <template #footer/>
+      <template #footer />
     </NuxtLayout>
   </div>
 </template>

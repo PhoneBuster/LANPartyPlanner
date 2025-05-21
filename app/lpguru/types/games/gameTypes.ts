@@ -4,6 +4,8 @@ export interface LanGame {
   name: string;
   upVotes: number;
   downVotes: number;
+  differentUserUpVotes?: number;
+  differentUserDownVotes?: number;
   creatorId: string;
   platform: GamingPlatform;
   genre: GamingGenre;

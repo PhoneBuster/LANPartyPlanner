@@ -1,7 +1,9 @@
+import type { LanGame } from "~/types/games/gameTypes";
+
 export interface ResponseMessage {
   status: number;
   message: string;
-  data?: never;
+  data?: LanGame[] | LanGame | string;
 }
 
 export interface ResponseToken {

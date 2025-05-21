@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { PropType } from 'vue';
+import type { PropType } from "vue";
 
 const model = defineModel({
-    type: [String, Boolean] as PropType<string | boolean>,
-    default: '',
-    required: false,
+  type: [String, Boolean] as PropType<string | boolean>,
+  default: "",
+  required: false,
 });
 </script>
 
 <template>
-  <input v-model="model" class="base-input" >
+  <input v-model="model" class="base-input" />
 </template>
 
 <style scoped lang="scss">

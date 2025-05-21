@@ -1,147 +1,147 @@
-import crypto from 'crypto';
-import fs from 'node:fs';
+import crypto from "crypto";
+import fs from "node:fs";
 
-const webApiKeyPath = process.env.WEB_API_KEY_FILE || '';
-let webApiKey = (await fs.promises.readFile(webApiKeyPath, 'utf-8')) || '';
-webApiKey = webApiKey.replaceAll('\r\n', '');
-webApiKey = webApiKey.replaceAll('\n', '');
+const webApiKeyPath = process.env.WEB_API_KEY_FILE || "";
+let webApiKey = (await fs.promises.readFile(webApiKeyPath, "utf-8")) || "";
+webApiKey = webApiKey.replaceAll("\r\n", "");
+webApiKey = webApiKey.replaceAll("\n", "");
 const lppArgs = [
-    'user create <name> <password>',
-    'user remove <name>',
-    'votes max <number>',
-    'landate <datestring>',
-    'reset <all|votes|games>',
+  "user create <name> <password>",
+  "user remove <name>",
+  "votes max <number>",
+  "landate <datestring>",
+  "reset <all|votes|games>",
 ];
 
 const args = process.argv;
 
 if (args.length === 2) {
-    console.info('Please use one of the arguments : \n  ');
-    console.info(lppArgs.join('\n'));
-    process.exit(127);
+  console.info("Please use one of the arguments : \n  ");
+  console.info(lppArgs.join("\n"));
+  process.exit(127);
 }
 
-if (args[2].toLowerCase() === 'landate') {
-    if (args.length < 4) {
-        console.info('You must provide a date string!!!');
-        process.exit(128);
-    }
+if (args[2].toLowerCase() === "landate") {
+  if (args.length < 4) {
+    console.info("You must provide a date string!!!");
+    process.exit(128);
+  }
 
-    const dateStr = args[3];
-    console.log('Date string : ', dateStr);
-    const response = await fetch('http://localhost:3000/api/config/landate', {
-        method: 'POST',
-        headers: {
-            'x-api-key': webApiKey,
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        body: JSON.stringify({ lanDate: dateStr }),
-    });
+  const dateStr = args[3];
+  console.log("Date string : ", dateStr);
+  const response = await fetch("http://localhost:3000/api/config/landate", {
+    method: "POST",
+    headers: {
+      "x-api-key": webApiKey,
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({ lanDate: dateStr }),
+  });
 
-    console.log(response.status, response.statusText);
+  console.log(response.status, response.statusText);
 }
 
-if (args[2].toLowerCase() === 'user' && args[3].toLowerCase() === 'create') {
-    if (args.length !== 6) {
-        console.info('You must provide username and password!!!');
-        process.exit(128);
-    }
+if (args[2].toLowerCase() === "user" && args[3].toLowerCase() === "create") {
+  if (args.length !== 6) {
+    console.info("You must provide username and password!!!");
+    process.exit(128);
+  }
 
-    const username = args[4];
-    const plainTextPassword = args[5];
+  const username = args[4];
+  const plainTextPassword = args[5];
 
-    const encryptedPw = getPassword(plainTextPassword);
-    const createUserData = {
-        username: username,
-        password: encryptedPw,
-    };
+  const encryptedPw = getPassword(plainTextPassword);
+  const createUserData = {
+    username: username,
+    password: encryptedPw,
+  };
 
-    const response = await fetch('http://localhost:3000/api/user/create', {
-        method: 'POST',
-        headers: {
-            'x-api-key': webApiKey,
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        body: JSON.stringify(createUserData),
-    });
+  const response = await fetch("http://localhost:3000/api/user/create", {
+    method: "POST",
+    headers: {
+      "x-api-key": webApiKey,
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify(createUserData),
+  });
 
-    console.log(response.status, response.statusText);
+  console.log(response.status, response.statusText);
 }
 
-if (args[2].toLowerCase() === 'user' && args[3].toLowerCase() === 'remove') {
-    if (args.length < 5) {
-        console.info('You must provide username!!!');
-        process.exit(128);
-    }
+if (args[2].toLowerCase() === "user" && args[3].toLowerCase() === "remove") {
+  if (args.length < 5) {
+    console.info("You must provide username!!!");
+    process.exit(128);
+  }
 
-    const username = args[4];
+  const username = args[4];
 
-    const removeUserData = {
-        username,
-    };
+  const removeUserData = {
+    username,
+  };
 
-    const response = await fetch('http://localhost:3000/api/user/remove', {
-        method: 'DELETE',
-        headers: {
-            'x-api-key': webApiKey,
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        body: JSON.stringify(removeUserData),
-    });
+  const response = await fetch("http://localhost:3000/api/user/remove", {
+    method: "DELETE",
+    headers: {
+      "x-api-key": webApiKey,
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify(removeUserData),
+  });
 
-    console.log(response.status, response.statusText);
+  console.log(response.status, response.statusText);
 }
 
-if (args[2].toLowerCase() === 'votes' && args[3].toLowerCase() === 'max') {
-    if (args.length < 5) {
-        console.info('You must provide max votes as a number!!!');
-        process.exit(128);
-    }
+if (args[2].toLowerCase() === "votes" && args[3].toLowerCase() === "max") {
+  if (args.length < 5) {
+    console.info("You must provide max votes as a number!!!");
+    process.exit(128);
+  }
 
-    const response = await fetch('http://localhost:3000/api/games/maxvotes', {
-        method: 'POST',
-        headers: {
-            'x-api-key': webApiKey,
-            'content-type': 'application/json',
-            accept: 'application/json',
-        },
-        body: JSON.stringify({ maxVotes: parseInt(args[4]) }),
-    });
+  const response = await fetch("http://localhost:3000/api/games/maxvotes", {
+    method: "POST",
+    headers: {
+      "x-api-key": webApiKey,
+      "content-type": "application/json",
+      accept: "application/json",
+    },
+    body: JSON.stringify({ maxVotes: parseInt(args[4]) }),
+  });
 
-    console.log(response.status, response.statusText);
+  console.log(response.status, response.statusText);
 }
 
-if (args[2].toLowerCase() === 'reset') {
-    if (args.length < 4) {
-        console.info('You must provide what to reset!!! <all|votes|games>');
-        process.exit(128);
-    }
+if (args[2].toLowerCase() === "reset") {
+  if (args.length < 4) {
+    console.info("You must provide what to reset!!! <all|votes|games>");
+    process.exit(128);
+  }
 
-    const resetType = args[3];
+  const resetType = args[3];
 
-    const response = await fetch(
-        `http://localhost:3000/api/admin/reset/${resetType}`,
-        {
-            method: 'GET',
-            headers: {
-                'x-api-key': webApiKey,
-                'content-type': 'application/json',
-                accept: 'application/json',
-            },
-        },
-    );
+  const response = await fetch(
+    `http://localhost:3000/api/admin/reset/${resetType}`,
+    {
+      method: "GET",
+      headers: {
+        "x-api-key": webApiKey,
+        "content-type": "application/json",
+        accept: "application/json",
+      },
+    },
+  );
 
-    console.log(response.status, response.statusText);
+  console.log(response.status, response.statusText);
 }
 
 function getPassword(plainTextPassword) {
-    const hashValue = crypto
-        .createHmac('sha256', plainTextPassword)
-        .update('You dont know what i want')
-        .digest('hex');
+  const hashValue = crypto
+    .createHmac("sha256", plainTextPassword)
+    .update("You dont know what i want")
+    .digest("hex");
 
-    return hashValue;
+  return hashValue;
 }

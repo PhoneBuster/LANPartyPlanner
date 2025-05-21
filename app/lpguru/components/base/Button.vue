@@ -1,20 +1,20 @@
 <script setup lang="ts">
 const props = defineProps({
-    buttonType: {
-        type: String,
-        required: true,
-        validator: (value: string) => {
-            return ['a', 'b', 'x', 'y'].includes(value.toLowerCase());
-        },
+  buttonType: {
+    type: String,
+    required: true,
+    validator: (value: string) => {
+      return ["a", "b", "x", "y"].includes(value.toLowerCase());
     },
+  },
 });
 
 const upperCaseButtonType = computed(() => {
-    return props.buttonType?.toUpperCase();
+  return props.buttonType?.toUpperCase();
 });
 
 const lowerCaseButtonType = computed(() => {
-    return props.buttonType?.toLowerCase();
+  return props.buttonType?.toLowerCase();
 });
 </script>
 

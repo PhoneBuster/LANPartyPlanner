@@ -1,7 +1,7 @@
 name: lanpartyguru
 services:
   languru:
-    image: node:20
+    image: node:24
     volumes:
       - ./app:/home/node
     command: bash
@@ -9,6 +9,7 @@ services:
     user: node
     environment:
       - WEB_API_KEY_FILE=/run/secrets/web_api_key
+      - TZ=Europe/Berlin
     secrets:
       - web_api_key
     working_dir: /home/node/lpguru

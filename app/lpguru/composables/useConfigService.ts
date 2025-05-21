@@ -1,14 +1,14 @@
-import { useUrlGenerator } from '~/composables/useUrlGenerator';
+import { useUrlGenerator } from "~/composables/useUrlGenerator";
 
 export const useConfigService = () => {
-    const urlGenerator = useUrlGenerator();
+  const urlGenerator = useUrlGenerator();
 
-    function getLanDate() {
-        return $fetch(urlGenerator.apiConfigLanDate, {
-            method: 'GET',
-        });
-    }
-    return {
-        getLanDate,
-    };
+  function getLanDate() {
+    return $fetch(urlGenerator.apiConfigLanDate, {
+      method: "GET",
+    });
+  }
+  return {
+    getLanDate,
+  };
 };

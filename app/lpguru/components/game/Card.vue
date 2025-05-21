@@ -1,102 +1,99 @@
 <script setup lang="ts">
 import {
-    type GenreOptions,
-    type LanGame,
-    GamingGenre,
-} from '@/types/games/gameTypes';
+  type GenreOptions,
+  type LanGame,
+  GamingGenre,
+} from "@/types/games/gameTypes";
 
 const props = defineProps<LanGame>();
 const emit = defineEmits([
-    'delete:lan-game',
-    'edit:lan-game',
-    'vote:upvote',
-    'vote:downvote',
-    'vote-remove:upvote',
-    'vote-remove:downvote',
+  "delete:lan-game",
+  "edit:lan-game",
+  "vote:upvote",
+  "vote:downvote",
+  "vote-remove:upvote",
+  "vote-remove:downvote",
 ]);
 
 const { onMultiClick } = useMultiClick();
 
 const gameService = useGameService();
 const genreImageClass = computed(() => {
-    let bgClass = '';
+  let bgClass = "";
 
-    switch (props.genre) {
+  switch (props.genre) {
     case GamingGenre.Action:
-        bgClass = 'bg-genre-action';
-        break;
+      bgClass = "bg-genre-action";
+      break;
     case GamingGenre.Racing:
-        bgClass = 'bg-genre-racing';
-        break;
+      bgClass = "bg-genre-racing";
+      break;
     case GamingGenre.Strategy:
-        bgClass = 'bg-genre-strategy';
-        break;
+      bgClass = "bg-genre-strategy";
+      break;
     case GamingGenre.Shooter:
-        bgClass = 'bg-genre-shooter';
-        break;
+      bgClass = "bg-genre-shooter";
+      break;
     case GamingGenre.JumpNRun:
-        bgClass = 'bg-genre-jumpandrun';
-        break;
+      bgClass = "bg-genre-jumpandrun";
+      break;
 
     default:
-        bgClass = 'bg-genre-other';
-        break;
-    }
+      bgClass = "bg-genre-other";
+      break;
+  }
 
-    return [bgClass];
+  return [bgClass];
 });
 
 const gameGenre = computed<GenreOptions>(() => {
-    const genreOptions = gameService.getGenreOptions();
+  const genreOptions = gameService.getGenreOptions();
 
-    const option = genreOptions.find((item) => {
-        return item.value === props.genre;
-    });
+  const option = genreOptions.find((item) => {
+    return item.value === props.genre;
+  });
 
-    if (!option) {
-        return { label: '', value: 0 };
-    }
-    return option;
+  if (!option) {
+    return { label: "", value: 0 };
+  }
+  return option;
 });
 
 const isDeleteButtonDisabled = computed(() => {
-    return props.upVotes > 0 || props.downVotes > 0;
+  return props.upVotes > 0 || props.downVotes > 0;
 });
 
 function onUpVote() {
-    emit('vote:upvote', props.id);
+  emit("vote:upvote", props.id);
 }
 
 function onUpVoteRemove() {
-    emit('vote-remove:upvote', props.id);
+  emit("vote-remove:upvote", props.id);
 }
 
 function onDownVoteRemove() {
-    emit('vote-remove:downvote', props.id);
+  emit("vote-remove:downvote", props.id);
 }
 
 function onDownVote() {
-    emit('vote:downvote', props.id);
+  emit("vote:downvote", props.id);
 }
 
 function deleteGame() {
-    if (!isDeleteButtonDisabled.value) {
-        emit('delete:lan-game', props.id);
-    }
+  if (!isDeleteButtonDisabled.value) {
+    emit("delete:lan-game", props.id);
+  }
 }
 
 function editGame() {
-    emit('edit:lan-game', props.id);
+  emit("edit:lan-game", props.id);
 }
 </script>
 
 <template>
   <div class="game-card">
     <BaseCard class="game-base-card">
-      <div
-        class="game-card-heading bg-cover-image"
-        :class="genreImageClass"
-      />
+      <div class="game-card-heading bg-cover-image" :class="genreImageClass" />
       <div class="game-card-body">
         <div class="game-card-text">
           {{ name }}

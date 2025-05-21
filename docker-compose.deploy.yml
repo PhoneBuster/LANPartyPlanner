@@ -1,6 +1,6 @@
 services:
   deploy:
-    image: node:20
+    image: node:24
     volumes:
       - ./app:/home/node
     command: ./scripts/deploy.sh
