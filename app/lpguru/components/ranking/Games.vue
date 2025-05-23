@@ -36,6 +36,8 @@ const rankedLanGames = computed(() => {
         class="m-1"
         position-text="#"
         price-text="&euro;"
+        user-up-vote-count-text="v+"
+        user-down-vote-count-text="v-"
         up-votes-text="+"
         down-votes-text="-"
       />
@@ -46,6 +48,8 @@ const rankedLanGames = computed(() => {
         :position="index + 1"
         :name="game.name"
         :price="game.price"
+        :user-up-vote-count="game.differentUserUpVotes || 0"
+        :user-down-vote-count="game.differentUserDownVotes || 0"
         :up-votes="game.upVotes"
         :down-votes="game.downVotes"
       />

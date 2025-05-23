@@ -280,7 +280,7 @@ onMounted(() => {
 </template>
 
 <style scoped lang="scss">
-@import "@splidejs/splide/css/skyblue";
+@use "@splidejs/splide/css/skyblue";
 .game-content {
   @apply w-full flex flex-col items-center;
 

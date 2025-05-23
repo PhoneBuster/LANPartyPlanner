@@ -12,6 +12,14 @@ defineProps({
     type: String,
     default: "Price",
   },
+  userUpVoteCountText: {
+    type: String,
+    default: "UserUpVoteCount",
+  },
+  userDownVoteCountText: {
+    type: String,
+    default: "UserDownVoteCount",
+  },
   upVotesText: {
     type: String,
     default: "Up Votes",
@@ -28,6 +36,12 @@ defineProps({
     <div class="ranking-headline-position">{{ positionText }}</div>
     <div class="ranking-headline-name">{{ nameText }}</div>
     <div class="ranking-headline-price">{{ priceText }}</div>
+    <div class="ranking-headline-up-votes-total-count">
+      {{ userUpVoteCountText }}
+    </div>
+    <div class="ranking-headline-down-votes-total-count">
+      {{ userDownVoteCountText }}
+    </div>
     <div class="ranking-headline-up-votes">{{ upVotesText }}</div>
     <div class="ranking-headline-down-votes">{{ downVotesText }}</div>
   </div>
@@ -47,11 +61,19 @@ defineProps({
   }
 
   &-name {
-    @apply col-span-7;
+    @apply col-span-5;
   }
 
   &-price {
     @apply col-span-2;
+  }
+
+  &-down-votes-total-count {
+    @apply col-span-1;
+  }
+
+  &-up-votes-total-count {
+    @apply col-span-1;
   }
 
   &-up-votes {
