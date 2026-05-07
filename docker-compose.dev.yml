@@ -1,0 +1,5 @@
+name: lanpartyguru
+services:
+  languru:
+    ports:
+      - "3000:3000"

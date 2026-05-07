@@ -10,7 +10,9 @@ const props = defineProps({
 
 <template>
   <label class="base-label">
-    <div class="title-text">{{ titleText }}</div>
+    <div class="title-text">
+      <span>{{ titleText }}</span> <slot name="afterLabel" />
+    </div>
     <slot />
   </label>
 </template>
