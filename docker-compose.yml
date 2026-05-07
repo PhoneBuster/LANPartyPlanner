@@ -9,9 +9,11 @@ services:
     user: node
     environment:
       - WEB_API_KEY_FILE=/run/secrets/web_api_key
+      - STEAM_API_KEY_FILE=/run/secrets/steam_api_key
       - TZ=Europe/Berlin
     secrets:
       - web_api_key
+      - steam_api_key
     working_dir: /home/node/lpguru
     networks:
       - frontend
@@ -19,6 +21,8 @@ services:
 secrets:
   web_api_key:
     file: api_key.txt
+  steam_api_key:
+    file: steam_api_key.txt
 
 networks:
   frontend:

@@ -18,7 +18,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const userStorage = useStorage("user");
-  const user: UserStorage | null = await userStorage.getItem(body.username);
+  const user: UserStorage | null = (await userStorage.getItem(
+    body.username,
+  )) as UserStorage | null;
 
   if (!user) {
     await sendRedirect(event, urlGenerator.noAccessUrl);
@@ -33,9 +35,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const ticketStorage = useStorage("tickets");
-  const currentTickets: TicketStorage = (await ticketStorage.getItem(
+  const currentTickets: TicketStorage = ((await ticketStorage.getItem(
     "tickets",
-  )) ?? {
+  )) as TicketStorage) ?? {
     tickets: [],
   };
 

@@ -81,3 +81,4 @@ fabric.properties
 /.idea/material_theme_project_new.xml
 /docker-compose.override.yml
 /api_key.txt
+/steam_api_key.txt

@@ -6,6 +6,7 @@
     "lint": "eslint --fix --ext .vue .",
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "e:dev": "nuxt dev --host",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -14,6 +15,7 @@
   "dependencies": {
     "@nuxt/eslint-config": "^1.4.1",
     "@splidejs/vue-splide": "^0.6.12",
+    "nanoid": "^5.1.9",
     "node-persist": "^4.0.4",
     "nuxt": "^3.17.4",
     "sass": "^1.72.0",
